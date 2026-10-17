@@ -1,0 +1,28 @@
+/home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp: In member function ‘io::Command omniperception::Decider::decide(auto_aim::YOLO&, const Vector3d&, io::USBCamera&, io::USBCamera&, io::Camera&)’:
+/home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:62:36: warning: narrowing conversion of ‘tools::limit_rad((((double)((const Eigen::DenseCoeffsBase<Eigen::Matrix<double, 3, 1>, 0>*)(& gimbal_pos))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 3, 1>, 0>::operator[](0)) + (((Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>*)(& delta_angle))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>::operator[](0) / 5.7299999999999997e+1)))’ from ‘double’ to ‘float’ [-Wnarrowing]
+   62 |       true, false, tools::limit_rad(gimbal_pos[0] + delta_angle[0] / 57.3),
+      |                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:63:23: warning: narrowing conversion of ‘tools::limit_rad((((Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>*)(& delta_angle))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>::operator[](1) / 5.7299999999999997e+1))’ from ‘double’ to ‘float’ [-Wnarrowing]
+   63 |       tools::limit_rad(delta_angle[1] / 57.3)};
+      |       ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+/home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp: In member function ‘io::Command omniperception::Decider::decide(auto_aim::YOLO&, const Vector3d&, io::Camera&)’:
+/home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:87:36: warning: narrowing conversion of ‘tools::limit_rad((((double)((const Eigen::DenseCoeffsBase<Eigen::Matrix<double, 3, 1>, 0>*)(& gimbal_pos))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 3, 1>, 0>::operator[](0)) + (((Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>*)(& delta_angle))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>::operator[](0) / 5.7299999999999997e+1)))’ from ‘double’ to ‘float’ [-Wnarrowing]
+   87 |       true, false, tools::limit_rad(gimbal_pos[0] + delta_angle[0] / 57.3),
+      |                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:88:23: warning: narrowing conversion of ‘tools::limit_rad((((Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>*)(& delta_angle))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>::operator[](1) / 5.7299999999999997e+1))’ from ‘double’ to ‘float’ [-Wnarrowing]
+   88 |       tools::limit_rad(delta_angle[1] / 57.3)};
+      |       ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+/home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp: In member function ‘io::Command omniperception::Decider::decide(const std::vector<omniperception::DetectionResult>&)’:
+/home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:106:38: warning: narrowing conversion of ‘dr.omniperception::DetectionResult::delta_yaw’ from ‘double’ to ‘float’ [-Wnarrowing]
+  106 |   return io::Command{true, false, dr.delta_yaw, dr.delta_pitch};
+      |                                   ~~~^~~~~~~~~
+/home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:106:52: warning: narrowing conversion of ‘dr.omniperception::DetectionResult::delta_pitch’ from ‘double’ to ‘float’ [-Wnarrowing]
+  106 |   return io::Command{true, false, dr.delta_yaw, dr.delta_pitch};
+      |                                                 ~~~^~~~~~~~~~~
+/home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/aimer.cpp: In member function ‘io::Command auto_aim::Aimer::aim(std::__cxx11::list<auto_aim::Target>, std::chrono::_V2::steady_clock::time_point, double, bool)’:
+/home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/aimer.cpp:143:24: warning: narrowing conversion of ‘yaw’ from ‘double’ to ‘float’ [-Wnarrowing]
+  143 |   return {true, false, yaw, pitch};
+      |                        ^~~
+/home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/aimer.cpp:143:29: warning: narrowing conversion of ‘pitch’ from ‘double’ to ‘float’ [-Wnarrowing]
+  143 |   return {true, false, yaw, pitch};
+      |                             ^~~~~

@@ -171,6 +171,9 @@ void Serial::SerialImpl::reconfigurePort()
 
   // set up raw mode / no echo / binary
   options.c_cflag |= (tcflag_t)(CLOCAL | CREAD);
+  // 清掉 HUPCL：close() 时不对设备拉低 DTR。重连需要 close→open，若电控固件对
+  // DTR 边沿敏感（CDC 回调里重初始化/复位），主机会与设备互相触发形成挂起循环。
+  options.c_cflag &= (tcflag_t) ~(HUPCL);
   options.c_lflag &=
     (tcflag_t) ~(ICANON | ECHO | ECHOE | ECHOK | ECHONL | ISIG | IEXTEN);  //|ECHOPRT
 

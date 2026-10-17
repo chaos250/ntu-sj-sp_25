@@ -1,0 +1,287 @@
+[0.030s] Invoking command in '/home/root1/共享文件/tongji/sp_vision_25/build/sp_vision': /opt/cmake-3.22/bin/cmake /home/root1/共享文件/tongji/sp_vision_25 -DCMAKE_INSTALL_PREFIX=/home/root1/共享文件/tongji/sp_vision_25/install/sp_vision
+[0.205s] -- The C compiler identification is GNU 11.4.0
+[0.364s] -- The CXX compiler identification is GNU 11.4.0
+[0.382s] -- Detecting C compiler ABI info
+[0.494s] -- Detecting C compiler ABI info - done
+[0.513s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.515s] -- Detecting C compile features
+[0.516s] -- Detecting C compile features - done
+[0.525s] -- Detecting CXX compiler ABI info
+[0.685s] -- Detecting CXX compiler ABI info - done
+[0.711s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.712s] -- Detecting CXX compile features
+[0.712s] -- Detecting CXX compile features - done
+[0.712s] -- --------------------CMAKE_BUILD_TYPE: Release--------------------
+[0.736s] -- Found OpenCV: /usr (found version "4.5.4") 
+[0.763s] -- Looking for pthread.h
+[0.905s] -- Looking for pthread.h - found
+[0.910s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[1.041s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[1.043s] -- Found Threads: TRUE  
+[1.055s] -- Found nlohmann_json: /usr/lib/cmake/nlohmann_json/nlohmann_jsonConfig.cmake (found version "3.10.5") 
+[1.308s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[1.659s] -- Found rosidl_generator_c: 3.1.6 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[1.668s] -- Found rosidl_adapter: 3.1.6 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[1.689s] -- Found rosidl_generator_cpp: 3.1.6 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[1.715s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.749s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.880s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[1.886s] -- Found rmw_fastrtps_cpp: 6.2.7 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[2.069s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[2.130s] -- Found FastRTPS: /opt/ros/humble/include  
+[2.224s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[2.363s] CMake Warning at io/CMakeLists.txt:52 (message):
+[2.364s]   ROS2 not found, skipping ROS2 specific code.
+[2.364s] 
+[2.364s] 
+[2.386s] -- Found required Ceres dependency: Eigen version 3.4.0 in /usr/include/eigen3
+[2.403s] -- Found required Ceres dependency: glog
+[2.405s] -- Found required Ceres dependency: gflags
+[2.407s] -- Found Ceres version: 2.0.0 installed in: /usr/local with components: [EigenSparse, SparseLinearAlgebraLibrary, LAPACK, SuiteSparse, CXSparse, SchurSpecializations, Multithreading]
+[2.661s] -- Found rosidl_generator_c: 3.1.6 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[2.664s] -- Found rosidl_adapter: 3.1.6 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[2.671s] -- Found rosidl_generator_cpp: 3.1.6 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[2.701s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[2.726s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[2.786s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[2.787s] -- Found rmw_fastrtps_cpp: 6.2.7 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[2.976s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[3.099s] -- ROS2 environment not found, skipping ROS2-related code.
+[3.099s] -- Configuring done
+[3.474s] -- Generating done
+[3.579s] -- Build files have been written to: /home/root1/共享文件/tongji/sp_vision_25/build/sp_vision
+[3.648s] Invoked command in '/home/root1/共享文件/tongji/sp_vision_25/build/sp_vision' returned '0': /opt/cmake-3.22/bin/cmake /home/root1/共享文件/tongji/sp_vision_25 -DCMAKE_INSTALL_PREFIX=/home/root1/共享文件/tongji/sp_vision_25/install/sp_vision
+[3.653s] Invoking command in '/home/root1/共享文件/tongji/sp_vision_25/build/sp_vision': /opt/cmake-3.22/bin/cmake --build /home/root1/共享文件/tongji/sp_vision_25/build/sp_vision -- -j8 -l8
+[3.679s] [  1%] Building CXX object tasks/auto_aim/planner/tinympc/CMakeFiles/tinympcstatic.dir/admm.cpp.o
+[13.275s] /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/planner/tinympc/admm.cpp: In function ‘tinyVector project_soc(tinyVector, float)’:
+[13.275s] /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/planner/tinympc/admm.cpp:40:42: warning: ‘Eigen::placeholders::last’ is deprecated [-Wdeprecated-declarations]
+[13.275s]    40 |     tinytype u0 = s(Eigen::placeholders::last) * mu;
+[13.275s]       |                                          ^~~~
+[13.275s] In file included from /usr/include/eigen3/Eigen/Core:265,
+[13.275s]                  from /usr/include/eigen3/Eigen/Dense:1,
+[13.275s]                  from /usr/include/eigen3/Eigen/Eigen:1,
+[13.275s]                  from /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/planner/tinympc/types.hpp:3,
+[13.276s]                  from /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/planner/tinympc/admm.hpp:3,
+[13.276s]                  from /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/planner/tinympc/admm.cpp:3:
+[13.276s] /usr/include/eigen3/Eigen/src/Core/util/IndexedViewHelper.h:180:40: note: declared here
+[13.276s]   180 |   EIGEN_DEPRECATED static const last_t last = Eigen::last;   // PLEASE use Eigen::last   instead of Eigen::placeholders::last
+[13.276s]       |                                        ^~~~
+[13.287s] [  2%] Building CXX object tasks/auto_aim/planner/tinympc/CMakeFiles/tinympcstatic.dir/rho_benchmark.cpp.o
+[22.363s] [  3%] Building CXX object tasks/auto_aim/planner/tinympc/CMakeFiles/tinympcstatic.dir/codegen.cpp.o
+[25.936s] [  4%] Building CXX object tasks/auto_aim/planner/tinympc/CMakeFiles/tinympcstatic.dir/tiny_api.cpp.o
+[47.172s] [  5%] Linking CXX static library libtinympcstatic.a
+[47.407s] [  5%] Built target tinympcstatic
+[47.426s] [  6%] Building CXX object tasks/omniperception/CMakeFiles/omniperception.dir/decider.cpp.o
+[47.504s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp: In member function ‘io::Command omniperception::Decider::decide(auto_aim::YOLO&, const Vector3d&, io::USBCamera&, io::USBCamera&, io::Camera&)’:
+[47.504s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:62:36: warning: narrowing conversion of ‘tools::limit_rad((((double)((const Eigen::DenseCoeffsBase<Eigen::Matrix<double, 3, 1>, 0>*)(& gimbal_pos))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 3, 1>, 0>::operator[](0)) + (((Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>*)(& delta_angle))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>::operator[](0) / 5.7299999999999997e+1)))’ from ‘double’ to ‘float’ [-Wnarrowing]
+[47.504s]    62 |       true, false, tools::limit_rad(gimbal_pos[0] + delta_angle[0] / 57.3),
+[47.504s]       |                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[47.504s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:63:23: warning: narrowing conversion of ‘tools::limit_rad((((Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>*)(& delta_angle))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>::operator[](1) / 5.7299999999999997e+1))’ from ‘double’ to ‘float’ [-Wnarrowing]
+[47.506s]    63 |       tools::limit_rad(delta_angle[1] / 57.3)};
+[47.506s]       |       ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+[47.508s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp: In member function ‘io::Command omniperception::Decider::decide(auto_aim::YOLO&, const Vector3d&, io::Camera&)’:
+[47.508s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:87:36: warning: narrowing conversion of ‘tools::limit_rad((((double)((const Eigen::DenseCoeffsBase<Eigen::Matrix<double, 3, 1>, 0>*)(& gimbal_pos))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 3, 1>, 0>::operator[](0)) + (((Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>*)(& delta_angle))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>::operator[](0) / 5.7299999999999997e+1)))’ from ‘double’ to ‘float’ [-Wnarrowing]
+[47.508s]    87 |       true, false, tools::limit_rad(gimbal_pos[0] + delta_angle[0] / 57.3),
+[47.509s]       |                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[47.509s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:88:23: warning: narrowing conversion of ‘tools::limit_rad((((Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>*)(& delta_angle))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>::operator[](1) / 5.7299999999999997e+1))’ from ‘double’ to ‘float’ [-Wnarrowing]
+[47.509s]    88 |       tools::limit_rad(delta_angle[1] / 57.3)};
+[47.509s]       |       ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+[47.509s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp: In member function ‘io::Command omniperception::Decider::decide(const std::vector<omniperception::DetectionResult>&)’:
+[47.509s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:106:38: warning: narrowing conversion of ‘dr.omniperception::DetectionResult::delta_yaw’ from ‘double’ to ‘float’ [-Wnarrowing]
+[47.509s]   106 |   return io::Command{true, false, dr.delta_yaw, dr.delta_pitch};
+[47.511s]       |                                   ~~~^~~~~~~~~
+[47.511s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:106:52: warning: narrowing conversion of ‘dr.omniperception::DetectionResult::delta_pitch’ from ‘double’ to ‘float’ [-Wnarrowing]
+[47.511s]   106 |   return io::Command{true, false, dr.delta_yaw, dr.delta_pitch};
+[47.511s]       |                                                 ~~~^~~~~~~~~~~
+[47.511s] [  7%] Building CXX object tasks/omniperception/CMakeFiles/omniperception.dir/perceptron.cpp.o
+[47.559s] [  7%] Built target omniperception
+[47.579s] [  8%] Building CXX object tools/CMakeFiles/tools.dir/exiter.cpp.o
+[48.046s] [  9%] Building CXX object tools/CMakeFiles/tools.dir/trajectory.cpp.o
+[48.402s] [ 10%] Building CXX object tools/CMakeFiles/tools.dir/recorder.cpp.o
+[68.935s] [ 10%] Building CXX object tools/CMakeFiles/tools.dir/logger.cpp.o
+[84.170s] [ 11%] Building CXX object tools/CMakeFiles/tools.dir/pid.cpp.o
+[86.424s] [ 12%] Building CXX object tools/CMakeFiles/tools.dir/crc.cpp.o
+[86.521s] [ 13%] Building CXX object tools/CMakeFiles/tools.dir/plotter.cpp.o
+[90.982s] [ 14%] Building CXX object tools/CMakeFiles/tools.dir/math_tools.cpp.o
+[94.263s] [ 15%] Building CXX object tools/CMakeFiles/tools.dir/img_tools.cpp.o
+[98.048s] [ 16%] Building CXX object tools/CMakeFiles/tools.dir/ransac_sine_fitter.cpp.o
+[155.158s] [ 16%] Building CXX object tools/CMakeFiles/tools.dir/extended_kalman_filter.cpp.o
+[179.926s] [ 16%] Built target tools
+[179.950s] [ 17%] Building CXX object io/serial/CMakeFiles/serial.dir/src/serial.cc.o
+[181.318s] [ 18%] Building CXX object io/serial/CMakeFiles/serial.dir/src/impl/list_ports/list_ports_linux.cc.o
+[183.233s] [ 19%] Building CXX object io/serial/CMakeFiles/serial.dir/src/impl/unix.cc.o
+[183.265s] [ 20%] Linking CXX static library libserial.a
+[183.358s] [ 20%] Built target serial
+[183.387s] [ 20%] Building CXX object CMakeFiles/split_video.dir/calibration/split_video.cpp.o
+[183.414s] [ 21%] Linking CXX executable split_video
+[184.494s] [ 21%] Built target split_video
+[184.501s] [ 22%] Building CXX object io/CMakeFiles/io.dir/command.cpp.o
+[185.089s] [ 23%] Building CXX object io/CMakeFiles/io.dir/mindvision/mindvision.cpp.o
+[203.458s] [ 24%] Building CXX object io/CMakeFiles/io.dir/usbcamera/usbcamera.cpp.o
+[222.868s] [ 24%] Building CXX object io/CMakeFiles/io.dir/camera.cpp.o
+[241.356s] [ 25%] Building CXX object io/CMakeFiles/io.dir/cboard.cpp.o
+[259.210s] [ 26%] Building CXX object io/CMakeFiles/io.dir/dm_imu/dm_imu.cpp.o
+[275.413s] [ 27%] Building CXX object io/CMakeFiles/io.dir/gimbal/gimbal.cpp.o
+[293.780s] [ 28%] Building CXX object io/CMakeFiles/io.dir/hikrobot/hikrobot.cpp.o
+[312.547s] [ 29%] Building CXX object io/CMakeFiles/io.dir/cboard1.cpp.o
+[328.556s] [ 30%] Building CXX object io/CMakeFiles/io.dir/protocol.cpp.o
+[328.630s] [ 31%] Linking CXX static library libio.a
+[328.822s] [ 31%] Built target io
+[328.839s] [ 32%] Building CXX object CMakeFiles/calibrate_robotworld_handeye.dir/calibration/calibrate_robotworld_handeye.cpp.o
+[328.883s] [ 33%] Linking CXX executable calibrate_robotworld_handeye
+[329.985s] [ 33%] Built target calibrate_robotworld_handeye
+[329.998s] [ 34%] Building CXX object CMakeFiles/fire_test.dir/tests/fire_test.cpp.o
+[330.049s] [ 34%] Linking CXX executable fire_test
+[331.240s] [ 34%] Built target fire_test
+[331.263s] [ 35%] Building CXX object CMakeFiles/gimbal_response_test.dir/tests/gimbal_response_test.cpp.o
+[331.293s] /home/root1/共享文件/tongji/sp_vision_25/tests/gimbal_response_test.cpp: In function ‘int main(int, char**)’:
+[331.293s] /home/root1/共享文件/tongji/sp_vision_25/tests/gimbal_response_test.cpp:130:40: warning: narrowing conversion of ‘tools::limit_rad((cmd_angle / 5.7299999999999997e+1))’ from ‘double’ to ‘float’ [-Wnarrowing]
+[331.293s]   130 |       command = {1, 0, tools::limit_rad(cmd_angle / 57.3), 0};
+[331.293s]       |                        ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+[331.303s] [ 36%] Linking CXX executable gimbal_response_test
+[332.454s] [ 36%] Built target gimbal_response_test
+[332.479s] [ 37%] Building CXX object CMakeFiles/multi_usbcamera_test.dir/tests/multi_usbcamera_test.cpp.o
+[332.512s] [ 38%] Linking CXX executable multi_usbcamera_test
+[333.860s] [ 38%] Built target multi_usbcamera_test
+[333.878s] [ 39%] Building CXX object CMakeFiles/usbcamera_test.dir/tests/usbcamera_test.cpp.o
+[333.914s] [ 40%] Linking CXX executable usbcamera_test
+[334.975s] [ 40%] Built target usbcamera_test
+[334.992s] [ 41%] Building CXX object CMakeFiles/dm_test.dir/tests/dm_test.cpp.o
+[335.025s] [ 42%] Linking CXX executable dm_test
+[336.095s] [ 42%] Built target dm_test
+[336.112s] [ 42%] Building CXX object CMakeFiles/cboard_test.dir/tests/cboard_test.cpp.o
+[336.144s] [ 43%] Linking CXX executable cboard_test
+[337.297s] [ 43%] Built target cboard_test
+[337.318s] [ 44%] Building CXX object CMakeFiles/camera_test.dir/tests/camera_test.cpp.o
+[337.361s] [ 45%] Linking CXX executable camera_test
+[338.680s] [ 45%] Built target camera_test
+[338.694s] [ 46%] Building CXX object CMakeFiles/capture.dir/calibration/capture.cpp.o
+[338.715s] [ 47%] Linking CXX executable capture
+[340.087s] [ 47%] Built target capture
+[340.122s] [ 47%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/armor.cpp.o
+[340.158s] [ 48%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/target.cpp.o
+[340.181s] [ 48%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/tracker.cpp.o
+[340.210s] [ 49%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/voter.cpp.o
+[340.248s] [ 50%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/shooter.cpp.o
+[340.289s] [ 51%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/yolo.cpp.o
+[340.328s] [ 52%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/yolos/yolov5.cpp.o
+[340.370s] [ 53%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/yolos/yolov8.cpp.o
+[340.412s] [ 54%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/yolos/yolo11.cpp.o
+[340.446s] [ 54%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/multithread/commandgener.cpp.o
+[364.626s] [ 55%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/multithread/mt_detector.cpp.o
+[364.670s] [ 56%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/planner/planner.cpp.o
+[364.698s] [ 57%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/aimer.cpp.o
+[364.717s] /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/aimer.cpp: In member function ‘io::Command auto_aim::Aimer::aim(std::__cxx11::list<auto_aim::Target>, std::chrono::_V2::steady_clock::time_point, double, bool)’:
+[364.717s] /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/aimer.cpp:143:24: warning: narrowing conversion of ‘yaw’ from ‘double’ to ‘float’ [-Wnarrowing]
+[364.717s]   143 |   return {true, false, yaw, pitch};
+[364.717s]       |                        ^~~
+[364.717s] /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/aimer.cpp:143:29: warning: narrowing conversion of ‘pitch’ from ‘double’ to ‘float’ [-Wnarrowing]
+[364.717s]   143 |   return {true, false, yaw, pitch};
+[364.717s]       |                             ^~~~~
+[364.735s] [ 58%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/solver.cpp.o
+[364.780s] [ 59%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/detector.cpp.o
+[364.818s] [ 60%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/classifier.cpp.o
+[364.856s] [ 60%] Built target auto_aim
+[364.880s] [ 60%] Building CXX object CMakeFiles/calibrate_handeye.dir/calibration/calibrate_handeye.cpp.o
+[364.906s] [ 61%] Linking CXX executable calibrate_handeye
+[366.072s] [ 61%] Built target calibrate_handeye
+[366.099s] [ 62%] Building CXX object CMakeFiles/camera_thread_test.dir/tests/camera_thread_test.cpp.o
+[366.136s] [ 63%] Linking CXX executable camera_thread_test
+[367.961s] [ 63%] Built target camera_thread_test
+[367.978s] [ 64%] Building CXX object CMakeFiles/detector_video_test.dir/tests/detector_video_test.cpp.o
+[368.005s] [ 65%] Linking CXX executable detector_video_test
+[369.676s] [ 65%] Built target detector_video_test
+[369.697s] [ 66%] Building CXX object CMakeFiles/usbcamera_detect_test.dir/tests/usbcamera_detect_test.cpp.o
+[369.730s] [ 67%] Linking CXX executable usbcamera_detect_test
+[371.499s] [ 67%] Built target usbcamera_detect_test
+[371.507s] [ 68%] Building CXX object CMakeFiles/handeye_test.dir/tests/handeye_test.cpp.o
+[371.550s] [ 68%] Linking CXX executable handeye_test
+[373.443s] [ 68%] Built target handeye_test
+[373.464s] [ 69%] Building CXX object CMakeFiles/minimum_vision_system.dir/tests/minimum_vision_system.cpp.o
+[373.511s] [ 70%] Linking CXX executable minimum_vision_system
+[375.516s] [ 70%] Built target minimum_vision_system
+[375.540s] [ 71%] Building CXX object CMakeFiles/gimbal_test.dir/tests/gimbal_test.cpp.o
+[375.586s] [ 72%] Linking CXX executable gimbal_test
+[377.331s] [ 72%] Built target gimbal_test
+[377.359s] [ 73%] Building CXX object CMakeFiles/planner_test.dir/tests/planner_test.cpp.o
+[377.397s] [ 73%] Linking CXX executable planner_test
+[379.155s] [ 73%] Built target planner_test
+[379.179s] [ 74%] Building CXX object CMakeFiles/planner_test_offline.dir/tests/planner_test_offline.cpp.o
+[379.208s] [ 75%] Linking CXX executable planner_test_offline
+[380.940s] [ 75%] Built target planner_test_offline
+[380.951s] [ 76%] Building CXX object CMakeFiles/cam_preview.dir/tests/cam_preview.cpp.o
+[380.997s] [ 77%] Linking CXX executable cam_preview
+[383.109s] [ 77%] Built target cam_preview
+[383.127s] [ 78%] Building CXX object CMakeFiles/camera_detect_test.dir/tests/camera_detect_test.cpp.o
+[383.174s] [ 78%] Linking CXX executable camera_detect_test
+[385.102s] [ 78%] Built target camera_detect_test
+[385.117s] [ 79%] Building CXX object CMakeFiles/auto_aim_test.dir/tests/auto_aim_test.cpp.o
+[385.152s] [ 80%] Linking CXX executable auto_aim_test
+[387.061s] [ 80%] Built target auto_aim_test
+[387.089s] [ 81%] Building CXX object CMakeFiles/standard1.dir/src/standard1.cpp.o
+[387.122s] [ 82%] Linking CXX executable standard1
+[388.981s] [ 82%] Built target standard1
+[388.997s] [ 82%] Building CXX object tasks/auto_buff/CMakeFiles/auto_buff.dir/buff_type.cpp.o
+[389.033s] [ 83%] Building CXX object tasks/auto_buff/CMakeFiles/auto_buff.dir/yolo11_buff.cpp.o
+[389.052s] /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_buff/yolo11_buff.cpp: In member function ‘std::vector<auto_buff::YOLO11_BUFF::Object> auto_buff::YOLO11_BUFF::get_multicandidateboxes(cv::Mat&)’:
+[389.054s] /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_buff/yolo11_buff.cpp:57:57: warning: ‘T* ov::Tensor::data() const [with T = const float; datatype = float]’ is deprecated: This function will return const T* in 2026.0. Check if used correctly [-Wdeprecated-declarations]
+[389.055s]    57 |   const float * output_buffer = output.data<const float>();
+[389.056s]       |                                 ~~~~~~~~~~~~~~~~~~~~~~~~^~
+[389.056s] In file included from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/descriptor/tensor.hpp:19,
+[389.056s]                  from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/descriptor/input.hpp:11,
+[389.057s]                  from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/node.hpp:24,
+[389.057s]                  from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/model.hpp:18,
+[389.057s]                  from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/graph_util.hpp:20,
+[389.057s]                  from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/core.hpp:20,
+[389.059s]                  from /opt/intel/openvino_2025.4.0/runtime/include/openvino/openvino.hpp:13,
+[389.059s]                  from /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_buff/yolo11_buff.hpp:7,
+[389.059s]                  from /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_buff/yolo11_buff.cpp:1:
+[389.059s] /opt/intel/openvino_2025.4.0/runtime/include/openvino/runtime/tensor.hpp:258:8: note: declared here
+[389.059s]   258 |     T* data() const {
+[389.059s]       |        ^~~~
+[389.059s] /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_buff/yolo11_buff.cpp: In member function ‘std::vector<auto_buff::YOLO11_BUFF::Object> auto_buff::YOLO11_BUFF::get_onecandidatebox(cv::Mat&)’:
+[389.059s] /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_buff/yolo11_buff.cpp:162:57: warning: ‘T* ov::Tensor::data() const [with T = const float; datatype = float]’ is deprecated: This function will return const T* in 2026.0. Check if used correctly [-Wdeprecated-declarations]
+[389.059s]   162 |   const float * output_buffer = output.data<const float>();
+[389.059s]       |                                 ~~~~~~~~~~~~~~~~~~~~~~~~^~
+[389.060s] In file included from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/descriptor/tensor.hpp:19,
+[389.060s]                  from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/descriptor/input.hpp:11,
+[389.060s]                  from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/node.hpp:24,
+[389.060s]                  from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/model.hpp:18,
+[389.060s]                  from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/graph_util.hpp:20,
+[389.060s]                  from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/core.hpp:20,
+[389.060s]                  from /opt/intel/openvino_2025.4.0/runtime/include/openvino/openvino.hpp:13,
+[389.060s]                  from /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_buff/yolo11_buff.hpp:7,
+[389.060s]                  from /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_buff/yolo11_buff.cpp:1:
+[389.062s] /opt/intel/openvino_2025.4.0/runtime/include/openvino/runtime/tensor.hpp:258:8: note: declared here
+[389.064s]   258 |     T* data() const {
+[389.067s]       |        ^~~~
+[389.067s] [ 84%] Building CXX object tasks/auto_buff/CMakeFiles/auto_buff.dir/buff_target.cpp.o
+[389.119s] [ 85%] Building CXX object tasks/auto_buff/CMakeFiles/auto_buff.dir/buff_aimer.cpp.o
+[389.171s] [ 86%] Building CXX object tasks/auto_buff/CMakeFiles/auto_buff.dir/buff_solver.cpp.o
+[389.211s] [ 87%] Building CXX object tasks/auto_buff/CMakeFiles/auto_buff.dir/buff_detector.cpp.o
+[389.257s] [ 87%] Built target auto_buff
+[389.286s] [ 88%] Building CXX object CMakeFiles/calibrate_camera.dir/calibration/calibrate_camera.cpp.o
+[389.312s] [ 89%] Linking CXX executable calibrate_camera
+[390.472s] [ 89%] Built target calibrate_camera
+[390.489s] [ 90%] Building CXX object CMakeFiles/auto_buff_test.dir/tests/auto_buff_test.cpp.o
+[390.534s] [ 91%] Linking CXX executable auto_buff_test
+[392.117s] [ 91%] Built target auto_buff_test
+[392.134s] [ 92%] Building CXX object CMakeFiles/auto_buff_debug_mpc.dir/src/auto_buff_debug_mpc.cpp.o
+[392.181s] [ 93%] Linking CXX executable auto_buff_debug_mpc
+[393.855s] [ 93%] Built target auto_buff_debug_mpc
+[393.875s] [ 94%] Building CXX object CMakeFiles/auto_buff_debug.dir/src/auto_buff_debug.cpp.o
+[393.933s] [ 94%] Linking CXX executable auto_buff_debug
+[395.821s] [ 94%] Built target auto_buff_debug
+[395.837s] [ 95%] Building CXX object CMakeFiles/auto_aim_debug_mpc.dir/src/auto_aim_debug_mpc.cpp.o
+[395.877s] [ 96%] Linking CXX executable auto_aim_debug_mpc
+[398.182s] [ 96%] Built target auto_aim_debug_mpc
+[398.200s] [ 97%] Building CXX object CMakeFiles/standard_mpc.dir/src/standard_mpc.cpp.o
+[398.245s] [ 97%] Linking CXX executable standard_mpc
+[400.464s] [ 97%] Built target standard_mpc
+[400.486s] [ 97%] Building CXX object CMakeFiles/mt_standard.dir/src/mt_standard.cpp.o
+[400.531s] [ 98%] Linking CXX executable mt_standard
+[402.711s] [ 98%] Built target mt_standard
+[402.732s] [ 99%] Building CXX object CMakeFiles/standard.dir/src/standard.cpp.o
+[402.774s] [100%] Linking CXX executable standard
+[404.924s] [100%] Built target standard
+[404.936s] Invoked command in '/home/root1/共享文件/tongji/sp_vision_25/build/sp_vision' returned '0': /opt/cmake-3.22/bin/cmake --build /home/root1/共享文件/tongji/sp_vision_25/build/sp_vision -- -j8 -l8

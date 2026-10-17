@@ -1,0 +1,238 @@
+# Ceres Solver - A fast non-linear least squares minimizer
+# Copyright 2026 Google Inc. All rights reserved.
+# http://ceres-solver.org/
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+# * Redistributions of source code must retain the above copyright notice,
+#   this list of conditions and the following disclaimer.
+# * Redistributions in binary form must reproduce the above copyright notice,
+#   this list of conditions and the following disclaimer in the documentation
+#   and/or other materials provided with the distribution.
+# * Neither the name of Google Inc. nor the names of its contributors may be
+#   used to endorse or promote products derived from this software without
+#   specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+# LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+# Authors: pablo.speciale@gmail.com (Pablo Speciale)
+#          alexs.mac@gmail.com (Alex Stewart)
+#
+
+# Config file for Ceres Solver - Find Ceres & dependencies.
+#
+# This file is used by CMake when find_package(Ceres) is invoked and either
+# the directory containing this file either is present in CMAKE_MODULE_PATH
+# (if Ceres was installed), or exists in the local CMake package registry if
+# the Ceres build directory was exported.
+#
+# This module defines the following variables:
+#
+# Ceres_FOUND / CERES_FOUND: True if Ceres has been successfully
+#                            found. Both variables are set as although
+#                            FindPackage() only references Ceres_FOUND
+#                            in Config mode, given the conventions for
+#                            <package>_FOUND when FindPackage() is
+#                            called in Module mode, users could
+#                            reasonably expect to use CERES_FOUND
+#                            instead.
+#
+# CERES_VERSION: Version of Ceres found.
+#
+# CERES_LIBRARIES: Libraries for Ceres and all
+#                  dependencies against which Ceres was
+#                  compiled. This will not include any optional
+#                  dependencies that were disabled when Ceres was
+#                  compiled.
+#
+# NOTE: There is no equivalent of CERES_INCLUDE_DIRS as the exported
+#       CMake target already includes the definition of its public
+#       include directories.
+
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+# Called if Ceres or one of its required dependencies cannot be used. Clears
+# the public result variables and provides the standard find_package failure
+# reason. find_package controls whether and how the reason is reported.
+macro(ceres_set_not_found REASON_MSG)
+  # FindPackage() only references Ceres_FOUND, and requires it to be
+  # explicitly set FALSE to denote not found (not merely undefined).
+  set(Ceres_FOUND FALSE)
+  set(CERES_FOUND FALSE)
+  unset(CERES_INCLUDE_DIR)
+  unset(CERES_INCLUDE_DIRS)
+  unset(CERES_LIBRARIES)
+
+  # Reset the CMake module path to its state when this script was called.
+  set(CMAKE_MODULE_PATH ${CALLERS_CMAKE_MODULE_PATH})
+  string(JOIN " " Ceres_NOT_FOUND_MESSAGE "${REASON_MSG}" ${ARGN})
+  return()
+endmacro(ceres_set_not_found)
+
+# The list of (optional) components this version of Ceres was compiled with.
+set(CERES_COMPILED_COMPONENTS "@CERES_COMPILED_COMPONENTS@")
+
+# Record the state of the CMake module path when this script was
+# called so that we can ensure that we leave it in the same state on
+# exit as it was on entry, but modify it locally.
+set(CALLERS_CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH})
+
+# Get the directory containing this file.
+get_filename_component(CERES_CURRENT_CONFIG_DIR
+  "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
+# Use dependency find modules available relative to this package config.
+list(PREPEND CMAKE_MODULE_PATH
+  ${CERES_CURRENT_CONFIG_DIR}/CeresFindModules
+  ${CERES_CURRENT_CONFIG_DIR})
+
+# Set the version.
+set(CERES_VERSION @CERES_VERSION@)
+
+# Required dependencies
+find_dependency(Threads)
+
+# Optional dependencies
+@METIS_DEPENDENCY@
+@SuiteSparse_DEPENDENCY@
+@CUDAToolkit_DEPENDENCY@
+@cudss_DEPENDENCY@
+
+# As imported CMake targets are not re-exported when a dependent target is
+# exported, we must invoke find_package(XXX) here to reload the definition
+# of their targets.  Without this, the dependency target names (e.g.
+# 'gflags-shared') which will be present in the ceres target would not be
+# defined, and so CMake will assume that they refer to a library name and
+# fail to link correctly.
+
+# Abseil
+set(_CERES_ABSL_VERSION @absl_VERSION@)
+set(_CERES_USE_SYSTEM_ABSL @CERES_USE_SYSTEM_ABSL@)
+if (_CERES_USE_SYSTEM_ABSL)
+  find_dependency(absl ${_CERES_ABSL_VERSION})
+  if (NOT absl_VERSION)
+    if (NOT TARGET absl::absl_vlog_is_on)
+      ceres_set_not_found("The version of abseil installed on the system "
+        "provides no version info and is missing TARGET 'absl::absl_vlog_is_on'")
+    endif ()
+  endif ()
+else ()
+  # absl from submodule, configs installed with ceres-solver
+  set(_CERES_ABSL_HINTS
+    "${CERES_CURRENT_CONFIG_DIR}/third_party/abseil-cpp"
+    "${CERES_CURRENT_CONFIG_DIR}/../absl")
+  find_dependency(absl ${_CERES_ABSL_VERSION} HINTS ${_CERES_ABSL_HINTS})
+  unset(_CERES_ABSL_HINTS)
+endif ()
+unset(_CERES_ABSL_VERSION)
+unset(_CERES_USE_SYSTEM_ABSL)
+
+# Eigen.
+# Flag set during configuration and build of Ceres.
+set(CERES_EIGEN_VERSION @Eigen3_VERSION@)
+# The search should be for an exact match, but for usability reasons do a soft
+# match and reject with an explanation below.
+find_package(Eigen3 ${CERES_EIGEN_VERSION} QUIET)
+if (Eigen3_FOUND)
+  if (NOT Eigen3_VERSION VERSION_EQUAL CERES_EIGEN_VERSION)
+    # CMake's VERSION check in FIND_PACKAGE() will accept any version >= the
+    # specified version. However, only version = is supported. Improve
+    # usability by explaining why we don't accept non-exact version matching.
+    ceres_set_not_found("Found Eigen dependency, but the version of Eigen "
+      "found (${Eigen3_VERSION}) does not exactly match the version of Eigen "
+      "Ceres was compiled with (${CERES_EIGEN_VERSION}). This can cause subtle "
+      "bugs by triggering violations of the One Definition Rule. See the "
+      "Wikipedia article http://en.wikipedia.org/wiki/One_Definition_Rule "
+      "for more details")
+  endif ()
+else (Eigen3_FOUND)
+  ceres_set_not_found("Missing required Ceres "
+    "dependency: Eigen version ${CERES_EIGEN_VERSION}, please set "
+    "Eigen3_DIR.")
+endif (Eigen3_FOUND)
+
+# Import exported Ceres targets, if they have not already been imported.
+if (NOT TARGET ceres AND NOT Ceres_BINARY_DIR)
+  include(${CERES_CURRENT_CONFIG_DIR}/CeresTargets.cmake)
+endif (NOT TARGET ceres AND NOT Ceres_BINARY_DIR)
+# Set the expected XX_LIBRARIES variable for FindPackage().
+set(CERES_LIBRARIES Ceres::ceres)
+
+# Reset CMake module path to its state when this script was called.
+set(CMAKE_MODULE_PATH ${CALLERS_CMAKE_MODULE_PATH})
+
+# Advertise compiled components and let CMake apply required and optional
+# component semantics.
+foreach(_Ceres_component IN LISTS Ceres_FIND_COMPONENTS)
+  set(Ceres_${_Ceres_component}_FOUND FALSE)
+endforeach()
+foreach(_Ceres_component IN LISTS CERES_COMPILED_COMPONENTS)
+  set(Ceres_${_Ceres_component}_FOUND TRUE)
+endforeach()
+
+set(_Ceres_missing_required_components)
+foreach(_Ceres_component IN LISTS Ceres_FIND_COMPONENTS)
+  if (Ceres_FIND_REQUIRED_${_Ceres_component}
+      AND NOT Ceres_${_Ceres_component}_FOUND)
+    list(APPEND _Ceres_missing_required_components ${_Ceres_component})
+  endif()
+endforeach()
+unset(_Ceres_component)
+
+set(Ceres_FOUND TRUE)
+check_required_components(Ceres)
+if (NOT Ceres_FOUND)
+  list(LENGTH _Ceres_missing_required_components
+    _Ceres_missing_required_component_count)
+  if (_Ceres_missing_required_component_count EQUAL 1)
+    set(_Ceres_component_noun "component")
+  else()
+    set(_Ceres_component_noun "components")
+  endif()
+  string(JOIN ", " _Ceres_missing_required_components_string
+    ${_Ceres_missing_required_components})
+  string(CONCAT _Ceres_missing_required_components_reason
+    "Missing required Ceres ${_Ceres_component_noun}: "
+    "${_Ceres_missing_required_components_string}.")
+  if (CERES_COMPILED_COMPONENTS)
+    string(JOIN ", " CERES_COMPILED_COMPONENTS_STRING
+      ${CERES_COMPILED_COMPONENTS})
+    ceres_set_not_found(
+      "${_Ceres_missing_required_components_reason}"
+      "Available components: ${CERES_COMPILED_COMPONENTS_STRING}.")
+  else()
+    ceres_set_not_found(
+      "${_Ceres_missing_required_components_reason}"
+      "No Ceres components are available.")
+  endif()
+endif()
+
+# Preserve the legacy uppercase result variable.
+set(CERES_FOUND ${Ceres_FOUND})
+
+if (NOT TARGET ceres)
+  # For backwards compatibility, create a local 'alias' target with the
+  # non-namespace-qualified Ceres target name. Note that this is not a
+  # true ALIAS library in CMake terms as they cannot point to imported targets.
+  add_library(ceres INTERFACE IMPORTED)
+  set_target_properties(ceres PROPERTIES INTERFACE_LINK_LIBRARIES Ceres::ceres)
+
+  if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.17)
+    set_target_properties(ceres PROPERTIES DEPRECATION
+"The unscoped import target `ceres' is deprecated and will be removed in a \
+future Ceres Solver release. Please use the Ceres::ceres import target instead.")
+  endif (CMAKE_VERSION VERSION_GREATER_EQUAL 3.17)
+endif()

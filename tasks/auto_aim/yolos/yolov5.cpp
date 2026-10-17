@@ -51,7 +51,9 @@ YOLOV5::YOLOV5(const std::string & config_path, bool debug)
   // TODO: ov::hint::performance_mode(ov::hint::PerformanceMode::LATENCY)
   model = ppp.build();
   compiled_model_ = core_.compile_model(
-    model, device_, ov::hint::performance_mode(ov::hint::PerformanceMode::LATENCY));
+    model, "CPU",
+    ov::hint::performance_mode(ov::hint::PerformanceMode::LATENCY)
+);
 }
 
 std::list<Armor> YOLOV5::detect(const cv::Mat & raw_img, int frame_count)
@@ -242,6 +244,7 @@ void YOLOV5::draw_detections(
   }
   cv::resize(detection, detection, {}, 0.5, 0.5);  // 显示时缩小图片尺寸
   cv::imshow("detection", detection);
+  cv::waitKey(1);  // 泵一下窗口事件，否则窗口不刷新
 }
 
 void YOLOV5::save(const Armor & armor) const

@@ -62,9 +62,13 @@ Eigen::VectorXd ExtendedKalmanFilter::update(
   double nis = residual.transpose() * S.inverse() * residual;
   double nees = (x - x_prior).transpose() * P.inverse() * (x - x_prior);
 
-  // 卡方检验阈值（自由度=4，取置信水平95%）
-  constexpr double nis_threshold = 0.711;
-  constexpr double nees_threshold = 0.711;
+  // 卡方检验阈值（95% 置信水平）。
+  // NIS 自由度 = 量测维度 4（yaw/pitch/distance/angle）：χ²(4) ≈ 9.488
+  // NEES 自由度 = 状态维度 11（x vx y vy z vz a w r l h）：χ²(11) ≈ 19.675
+  // 此前误用 0.711（χ² 的 5% 分位点），滤波器越准越容易被判失败，
+  // 导致 tracker 周期性地把目标重置为 lost。
+  constexpr double nis_threshold = 9.488;
+  constexpr double nees_threshold = 19.675;
 
   if (nis > nis_threshold) nis_count_++, data["nis_fail"] = 1;
   if (nees > nees_threshold) nees_count_++, data["nees_fail"] = 1;

@@ -38,9 +38,12 @@ private:
   double comming_angle_;
   double leaving_angle_;
   double lock_id_ = -1;
+  bool spin_mode_ = false;  // 小陀螺分支滞回状态（进入 2.2rad/s，退出 1.6rad/s）
   double high_speed_delay_time_;
   double low_speed_delay_time_;
   double decision_speed_;
+  double default_bullet_speed_;
+  std::chrono::steady_clock::time_point last_bullet_warn_{};  // 弹速告警节流（1s 一次）
 
   AimPoint choose_aim_point(const Target & target);
 };

@@ -38,6 +38,10 @@ private:
   int temp_lost_count_;
   int outpost_max_temp_lost_count_;
   int normal_temp_lost_count_;
+  // 相邻两帧间隔超过该值即判定目标丢失（相机卡顿/掉线）。
+  // 默认 0.1s 是按 ~100fps 的推理帧率设计的；推理较慢的平台上
+  // 每帧间隔都会超过它，导致跟踪状态每帧被重置、目标永远建立不起来。
+  double max_dt_ = 0.1;
   std::string state_, pre_state_;
   Target target_;
   std::chrono::steady_clock::time_point last_timestamp_;

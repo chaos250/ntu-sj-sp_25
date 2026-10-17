@@ -19,6 +19,8 @@ Planner::Planner(const std::string & config_path)
   decision_speed_ = tools::read<double>(yaml, "decision_speed");
   high_speed_delay_time_ = tools::read<double>(yaml, "high_speed_delay_time");
   low_speed_delay_time_ = tools::read<double>(yaml, "low_speed_delay_time");
+  // 电控帧内弹速无效时的兜底弹速，需按实际弹速配置
+  default_bullet_speed_ = yaml["default_bullet_speed"].as<double>(22.0);
 
   setup_yaw_solver(config_path);
   setup_pitch_solver(config_path);
@@ -28,7 +30,13 @@ Plan Planner::plan(Target target, double bullet_speed)
 {
   // 0. Check bullet speed
   if (bullet_speed < 10 || bullet_speed > 25) {
-    bullet_speed = 22;
+    if (tools::delta_time(std::chrono::steady_clock::now(), last_bullet_warn_) > 1.0) {
+      tools::logger()->warn(
+        "[Planner] bullet_speed {:.1f} 无效，使用配置默认值 {:.1f}", bullet_speed,
+        default_bullet_speed_);
+      last_bullet_warn_ = std::chrono::steady_clock::now();
+    }
+    bullet_speed = default_bullet_speed_;
   }
 
   // 1. Predict fly_time

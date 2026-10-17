@@ -61,7 +61,7 @@ int main(int argc, char * argv[])
     mode = cboard.mode;
     // recorder.record(img, q, t);
     if (last_mode != mode) {
-      tools::logger()->info("Switch to {}", io::MODES[mode]);
+      tools::logger()->info("Switch to {}", io::MODES[static_cast<int>(mode)]);
       last_mode = mode;
     }
 

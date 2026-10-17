@@ -1,0 +1,24 @@
+[  5%] Built target tinympcstatic
+[  6%] Building CXX object tasks/omniperception/CMakeFiles/omniperception.dir/decider.cpp.o
+[  7%] Building CXX object tasks/omniperception/CMakeFiles/omniperception.dir/perceptron.cpp.o
+[  7%] Built target omniperception
+[ 16%] Built target tools
+[ 20%] Built target serial
+[ 21%] Built target split_video
+[ 31%] Built target io
+[ 33%] Built target calibrate_robotworld_handeye
+[ 34%] Built target fire_test
+[ 36%] Built target gimbal_response_test
+[ 38%] Built target multi_usbcamera_test
+[ 40%] Built target usbcamera_test
+[ 42%] Built target dm_test
+[ 43%] Built target cboard_test
+[ 45%] Built target camera_test
+[ 47%] Built target capture
+Consolidate compiler generated dependencies of target auto_aim
+[ 47%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/armor.cpp.o
+[ 48%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/target.cpp.o
+[ 48%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/tracker.cpp.o
+[ 49%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/voter.cpp.o
+[ 50%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/shooter.cpp.o
+[ 51%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/yolo.cpp.o

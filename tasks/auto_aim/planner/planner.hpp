@@ -2,6 +2,7 @@
 #define AUTO_AIM__PLANNER_HPP
 
 #include <Eigen/Dense>
+#include <chrono>
 #include <list>
 #include <optional>
 
@@ -44,6 +45,8 @@ private:
   double pitch_offset_;
   double fire_thresh_;
   double low_speed_delay_time_, high_speed_delay_time_, decision_speed_;
+  double default_bullet_speed_;
+  std::chrono::steady_clock::time_point last_bullet_warn_{};  // 弹速告警节流（1s 一次）
 
   TinySolver * yaw_solver_;
   TinySolver * pitch_solver_;

@@ -1,0 +1,67 @@
+[  5%] Built target tinympcstatic
+[  7%] Built target omniperception
+[ 16%] Built target tools
+[ 20%] Built target serial
+[ 21%] Built target split_video
+[ 31%] Built target io
+[ 33%] Built target calibrate_robotworld_handeye
+[ 34%] Built target fire_test
+[ 36%] Built target gimbal_response_test
+[ 38%] Built target multi_usbcamera_test
+[ 40%] Built target usbcamera_test
+[ 42%] Built target dm_test
+[ 43%] Built target cboard_test
+[ 45%] Built target camera_test
+[ 47%] Built target capture
+Consolidate compiler generated dependencies of target auto_aim
+[ 48%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/solver.cpp.o
+[ 48%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/multithread/commandgener.cpp.o
+[ 48%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/tracker.cpp.o
+[ 60%] Built target auto_aim
+[ 61%] Built target calibrate_handeye
+[ 62%] Building CXX object CMakeFiles/camera_thread_test.dir/tests/camera_thread_test.cpp.o
+[ 63%] Linking CXX executable camera_thread_test
+[ 63%] Built target camera_thread_test
+[ 64%] Linking CXX executable detector_video_test
+[ 65%] Built target detector_video_test
+[ 66%] Linking CXX executable usbcamera_detect_test
+[ 67%] Built target usbcamera_detect_test
+[ 68%] Building CXX object CMakeFiles/handeye_test.dir/tests/handeye_test.cpp.o
+[ 68%] Linking CXX executable handeye_test
+[ 68%] Built target handeye_test
+[ 69%] Building CXX object CMakeFiles/minimum_vision_system.dir/tests/minimum_vision_system.cpp.o
+[ 70%] Linking CXX executable minimum_vision_system
+[ 70%] Built target minimum_vision_system
+[ 71%] Linking CXX executable gimbal_test
+[ 72%] Built target gimbal_test
+[ 72%] Linking CXX executable planner_test
+[ 73%] Built target planner_test
+[ 74%] Linking CXX executable planner_test_offline
+[ 75%] Built target planner_test_offline
+[ 76%] Linking CXX executable cam_preview
+[ 77%] Built target cam_preview
+[ 77%] Linking CXX executable camera_detect_test
+[ 78%] Built target camera_detect_test
+[ 79%] Building CXX object CMakeFiles/auto_aim_test.dir/tests/auto_aim_test.cpp.o
+[ 80%] Linking CXX executable auto_aim_test
+[ 80%] Built target auto_aim_test
+[ 81%] Building CXX object CMakeFiles/standard1.dir/src/standard1.cpp.o
+[ 82%] Linking CXX executable standard1
+[ 82%] Built target standard1
+[ 87%] Built target auto_buff
+[ 89%] Built target calibrate_camera
+[ 91%] Built target auto_buff_test
+[ 93%] Built target auto_buff_debug_mpc
+[ 94%] Built target auto_buff_debug
+[ 95%] Building CXX object CMakeFiles/auto_aim_debug_mpc.dir/src/auto_aim_debug_mpc.cpp.o
+[ 96%] Linking CXX executable auto_aim_debug_mpc
+[ 96%] Built target auto_aim_debug_mpc
+[ 97%] Building CXX object CMakeFiles/standard_mpc.dir/src/standard_mpc.cpp.o
+[ 97%] Linking CXX executable standard_mpc
+[ 97%] Built target standard_mpc
+[ 97%] Building CXX object CMakeFiles/mt_standard.dir/src/mt_standard.cpp.o
+[ 98%] Linking CXX executable mt_standard
+[ 98%] Built target mt_standard
+[ 99%] Building CXX object CMakeFiles/standard.dir/src/standard.cpp.o
+[100%] Linking CXX executable standard
+[100%] Built target standard

@@ -1,0 +1,70 @@
+[0.023s] Invoking command in '/home/root1/共享文件/tongji/sp_vision_25/build/sp_vision': /opt/cmake-3.22/bin/cmake --build /home/root1/共享文件/tongji/sp_vision_25/build/sp_vision -- -j8 -l8
+[0.117s] [  5%] Built target tinympcstatic
+[0.145s] [  7%] Built target omniperception
+[0.192s] [ 16%] Built target tools
+[0.226s] [ 20%] Built target serial
+[0.264s] [ 21%] Built target split_video
+[0.300s] Consolidate compiler generated dependencies of target io
+[0.331s] [ 31%] Built target io
+[0.362s] [ 33%] Built target calibrate_robotworld_handeye
+[0.407s] [ 34%] Built target fire_test
+[0.438s] [ 36%] Built target gimbal_response_test
+[0.472s] [ 38%] Built target multi_usbcamera_test
+[0.510s] [ 40%] Built target usbcamera_test
+[0.549s] [ 42%] Built target dm_test
+[0.597s] [ 43%] Built target cboard_test
+[0.641s] [ 45%] Built target camera_test
+[0.673s] [ 47%] Built target capture
+[0.759s] Consolidate compiler generated dependencies of target auto_aim
+[0.788s] [ 48%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/solver.cpp.o
+[37.411s] [ 48%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/multithread/commandgener.cpp.o
+[69.819s] [ 48%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/tracker.cpp.o
+[101.163s] [ 60%] Built target auto_aim
+[101.214s] [ 61%] Built target calibrate_handeye
+[101.248s] [ 62%] Building CXX object CMakeFiles/camera_thread_test.dir/tests/camera_thread_test.cpp.o
+[134.772s] [ 63%] Linking CXX executable camera_thread_test
+[137.313s] [ 63%] Built target camera_thread_test
+[137.353s] [ 64%] Linking CXX executable detector_video_test
+[139.758s] [ 65%] Built target detector_video_test
+[139.806s] [ 66%] Linking CXX executable usbcamera_detect_test
+[142.383s] [ 67%] Built target usbcamera_detect_test
+[142.432s] [ 68%] Building CXX object CMakeFiles/handeye_test.dir/tests/handeye_test.cpp.o
+[174.329s] [ 68%] Linking CXX executable handeye_test
+[177.009s] [ 68%] Built target handeye_test
+[177.047s] [ 69%] Building CXX object CMakeFiles/minimum_vision_system.dir/tests/minimum_vision_system.cpp.o
+[216.296s] [ 70%] Linking CXX executable minimum_vision_system
+[218.995s] [ 70%] Built target minimum_vision_system
+[219.032s] [ 71%] Linking CXX executable gimbal_test
+[221.500s] [ 72%] Built target gimbal_test
+[221.542s] [ 72%] Linking CXX executable planner_test
+[224.015s] [ 73%] Built target planner_test
+[224.054s] [ 74%] Linking CXX executable planner_test_offline
+[226.479s] [ 75%] Built target planner_test_offline
+[226.525s] [ 76%] Linking CXX executable cam_preview
+[229.070s] [ 77%] Built target cam_preview
+[229.103s] [ 77%] Linking CXX executable camera_detect_test
+[231.722s] [ 78%] Built target camera_detect_test
+[231.749s] [ 79%] Building CXX object CMakeFiles/auto_aim_test.dir/tests/auto_aim_test.cpp.o
+[269.197s] [ 80%] Linking CXX executable auto_aim_test
+[271.649s] [ 80%] Built target auto_aim_test
+[271.692s] [ 81%] Building CXX object CMakeFiles/standard1.dir/src/standard1.cpp.o
+[306.658s] [ 82%] Linking CXX executable standard1
+[309.303s] [ 82%] Built target standard1
+[309.358s] [ 87%] Built target auto_buff
+[309.383s] [ 89%] Built target calibrate_camera
+[309.427s] [ 91%] Built target auto_buff_test
+[309.461s] [ 93%] Built target auto_buff_debug_mpc
+[309.503s] [ 94%] Built target auto_buff_debug
+[309.547s] [ 95%] Building CXX object CMakeFiles/auto_aim_debug_mpc.dir/src/auto_aim_debug_mpc.cpp.o
+[345.242s] [ 96%] Linking CXX executable auto_aim_debug_mpc
+[348.222s] [ 96%] Built target auto_aim_debug_mpc
+[348.272s] [ 97%] Building CXX object CMakeFiles/standard_mpc.dir/src/standard_mpc.cpp.o
+[387.455s] [ 97%] Linking CXX executable standard_mpc
+[390.597s] [ 97%] Built target standard_mpc
+[390.646s] [ 97%] Building CXX object CMakeFiles/mt_standard.dir/src/mt_standard.cpp.o
+[429.496s] [ 98%] Linking CXX executable mt_standard
+[432.588s] [ 98%] Built target mt_standard
+[432.634s] [ 99%] Building CXX object CMakeFiles/standard.dir/src/standard.cpp.o
+[464.100s] [100%] Linking CXX executable standard
+[467.217s] [100%] Built target standard
+[467.234s] Invoked command in '/home/root1/共享文件/tongji/sp_vision_25/build/sp_vision' returned '0': /opt/cmake-3.22/bin/cmake --build /home/root1/共享文件/tongji/sp_vision_25/build/sp_vision -- -j8 -l8

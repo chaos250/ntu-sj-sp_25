@@ -49,6 +49,8 @@ private:
   int armor_num_;
   int switch_count_;
   int update_count_;
+  int angle_hold_count_ = 0;  // 角度创新门控连续拒帧计数（见 update_ypda）
+  int pos_hold_count_ = 0;    // 位置创新门控连续拒帧计数（见 update_ypda）
 
   bool is_switch_, is_converged_;
 

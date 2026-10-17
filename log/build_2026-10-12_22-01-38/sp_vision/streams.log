@@ -1,0 +1,120 @@
+[0.027s] Invoking command in '/home/root1/共享文件/tongji/sp_vision_25/build/sp_vision': /opt/cmake-3.22/bin/cmake --build /home/root1/共享文件/tongji/sp_vision_25/build/sp_vision -- -j8 -l8
+[0.103s] [  5%] Built target tinympcstatic
+[0.135s] [  6%] Building CXX object tasks/omniperception/CMakeFiles/omniperception.dir/decider.cpp.o
+[30.653s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp: In member function ‘io::Command omniperception::Decider::decide(auto_aim::YOLO&, const Vector3d&, io::USBCamera&, io::USBCamera&, io::Camera&)’:
+[30.653s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:62:36: warning: narrowing conversion of ‘tools::limit_rad((((double)((const Eigen::DenseCoeffsBase<Eigen::Matrix<double, 3, 1>, 0>*)(& gimbal_pos))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 3, 1>, 0>::operator[](0)) + (((Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>*)(& delta_angle))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>::operator[](0) / 5.7299999999999997e+1)))’ from ‘double’ to ‘float’ [-Wnarrowing]
+[30.654s]    62 |       true, false, tools::limit_rad(gimbal_pos[0] + delta_angle[0] / 57.3),
+[30.654s]       |                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[30.654s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:63:23: warning: narrowing conversion of ‘tools::limit_rad((((Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>*)(& delta_angle))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>::operator[](1) / 5.7299999999999997e+1))’ from ‘double’ to ‘float’ [-Wnarrowing]
+[30.654s]    63 |       tools::limit_rad(delta_angle[1] / 57.3)};
+[30.654s]       |       ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+[30.654s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp: In member function ‘io::Command omniperception::Decider::decide(auto_aim::YOLO&, const Vector3d&, io::Camera&)’:
+[30.654s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:87:36: warning: narrowing conversion of ‘tools::limit_rad((((double)((const Eigen::DenseCoeffsBase<Eigen::Matrix<double, 3, 1>, 0>*)(& gimbal_pos))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 3, 1>, 0>::operator[](0)) + (((Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>*)(& delta_angle))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>::operator[](0) / 5.7299999999999997e+1)))’ from ‘double’ to ‘float’ [-Wnarrowing]
+[30.654s]    87 |       true, false, tools::limit_rad(gimbal_pos[0] + delta_angle[0] / 57.3),
+[30.654s]       |                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[30.654s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:88:23: warning: narrowing conversion of ‘tools::limit_rad((((Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>*)(& delta_angle))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>::operator[](1) / 5.7299999999999997e+1))’ from ‘double’ to ‘float’ [-Wnarrowing]
+[30.655s]    88 |       tools::limit_rad(delta_angle[1] / 57.3)};
+[30.655s]       |       ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+[30.655s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp: In member function ‘io::Command omniperception::Decider::decide(const std::vector<omniperception::DetectionResult>&)’:
+[30.655s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:106:38: warning: narrowing conversion of ‘dr.omniperception::DetectionResult::delta_yaw’ from ‘double’ to ‘float’ [-Wnarrowing]
+[30.655s]   106 |   return io::Command{true, false, dr.delta_yaw, dr.delta_pitch};
+[30.655s]       |                                   ~~~^~~~~~~~~
+[30.655s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:106:52: warning: narrowing conversion of ‘dr.omniperception::DetectionResult::delta_pitch’ from ‘double’ to ‘float’ [-Wnarrowing]
+[30.655s]   106 |   return io::Command{true, false, dr.delta_yaw, dr.delta_pitch};
+[30.655s]       |                                                 ~~~^~~~~~~~~~~
+[30.680s] [  7%] Building CXX object tasks/omniperception/CMakeFiles/omniperception.dir/perceptron.cpp.o
+[58.959s] [  7%] Built target omniperception
+[59.002s] [ 16%] Built target tools
+[59.045s] [ 20%] Built target serial
+[59.079s] [ 21%] Built target split_video
+[59.133s] [ 31%] Built target io
+[59.178s] [ 33%] Built target calibrate_robotworld_handeye
+[59.203s] [ 34%] Built target fire_test
+[59.235s] [ 36%] Built target gimbal_response_test
+[59.273s] [ 38%] Built target multi_usbcamera_test
+[59.312s] [ 40%] Built target usbcamera_test
+[59.353s] [ 42%] Built target dm_test
+[59.391s] [ 43%] Built target cboard_test
+[59.441s] [ 45%] Built target camera_test
+[59.475s] [ 47%] Built target capture
+[59.562s] Consolidate compiler generated dependencies of target auto_aim
+[59.595s] [ 48%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/solver.cpp.o
+[94.618s] [ 48%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/multithread/commandgener.cpp.o
+[127.622s] [ 49%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/planner/planner.cpp.o
+[158.283s] [ 50%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/shooter.cpp.o
+[185.289s] [ 50%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/tracker.cpp.o
+[217.309s] [ 51%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/target.cpp.o
+[248.921s] [ 52%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/aimer.cpp.o
+[278.526s] /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/aimer.cpp: In member function ‘io::Command auto_aim::Aimer::aim(std::__cxx11::list<auto_aim::Target>, std::chrono::_V2::steady_clock::time_point, double, bool)’:
+[278.527s] /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/aimer.cpp:143:24: warning: narrowing conversion of ‘yaw’ from ‘double’ to ‘float’ [-Wnarrowing]
+[278.528s]   143 |   return {true, false, yaw, pitch};
+[278.528s]       |                        ^~~
+[278.528s] /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/aimer.cpp:143:29: warning: narrowing conversion of ‘pitch’ from ‘double’ to ‘float’ [-Wnarrowing]
+[278.529s]   143 |   return {true, false, yaw, pitch};
+[278.529s]       |                             ^~~~~
+[278.546s] [ 60%] Built target auto_aim
+[278.581s] [ 61%] Built target calibrate_handeye
+[278.605s] Consolidate compiler generated dependencies of target camera_thread_test
+[278.625s] [ 62%] Building CXX object CMakeFiles/camera_thread_test.dir/tests/camera_thread_test.cpp.o
+[312.007s] [ 63%] Linking CXX executable camera_thread_test
+[314.599s] [ 63%] Built target camera_thread_test
+[314.635s] [ 64%] Linking CXX executable detector_video_test
+[317.129s] [ 65%] Built target detector_video_test
+[317.169s] [ 66%] Linking CXX executable usbcamera_detect_test
+[319.552s] [ 67%] Built target usbcamera_detect_test
+[319.578s] Consolidate compiler generated dependencies of target handeye_test
+[319.594s] [ 67%] Linking CXX executable handeye_test
+[322.235s] [ 68%] Built target handeye_test
+[322.276s] Consolidate compiler generated dependencies of target minimum_vision_system
+[322.308s] [ 69%] Building CXX object CMakeFiles/minimum_vision_system.dir/tests/minimum_vision_system.cpp.o
+[361.830s] [ 70%] Linking CXX executable minimum_vision_system
+[364.440s] [ 70%] Built target minimum_vision_system
+[364.466s] [ 71%] Linking CXX executable gimbal_test
+[366.835s] [ 72%] Built target gimbal_test
+[366.881s] [ 73%] Building CXX object CMakeFiles/planner_test.dir/tests/planner_test.cpp.o
+[396.645s] [ 73%] Linking CXX executable planner_test
+[399.138s] [ 73%] Built target planner_test
+[399.177s] [ 74%] Building CXX object CMakeFiles/planner_test_offline.dir/tests/planner_test_offline.cpp.o
+[429.117s] [ 75%] Linking CXX executable planner_test_offline
+[431.682s] [ 75%] Built target planner_test_offline
+[431.708s] [ 76%] Linking CXX executable cam_preview
+[434.334s] [ 77%] Built target cam_preview
+[434.370s] [ 77%] Linking CXX executable camera_detect_test
+[436.871s] [ 78%] Built target camera_detect_test
+[436.904s] Consolidate compiler generated dependencies of target auto_aim_test
+[436.940s] [ 79%] Building CXX object CMakeFiles/auto_aim_test.dir/tests/auto_aim_test.cpp.o
+[474.279s] [ 80%] Linking CXX executable auto_aim_test
+[476.722s] [ 80%] Built target auto_aim_test
+[476.752s] Consolidate compiler generated dependencies of target standard1
+[476.772s] [ 81%] Building CXX object CMakeFiles/standard1.dir/src/standard1.cpp.o
+[512.010s] [ 82%] Linking CXX executable standard1
+[514.663s] [ 82%] Built target standard1
+[514.716s] [ 83%] Building CXX object tasks/auto_buff/CMakeFiles/auto_buff.dir/buff_aimer.cpp.o
+[552.425s] [ 87%] Built target auto_buff
+[552.446s] [ 89%] Built target calibrate_camera
+[552.492s] [ 90%] Building CXX object CMakeFiles/auto_buff_test.dir/tests/auto_buff_test.cpp.o
+[590.794s] [ 91%] Linking CXX executable auto_buff_test
+[593.092s] [ 91%] Built target auto_buff_test
+[593.122s] [ 92%] Building CXX object CMakeFiles/auto_buff_debug_mpc.dir/src/auto_buff_debug_mpc.cpp.o
+[631.764s] [ 93%] Linking CXX executable auto_buff_debug_mpc
+[634.260s] [ 93%] Built target auto_buff_debug_mpc
+[634.308s] [ 94%] Building CXX object CMakeFiles/auto_buff_debug.dir/src/auto_buff_debug.cpp.o
+[672.683s] [ 94%] Linking CXX executable auto_buff_debug
+[675.157s] [ 94%] Built target auto_buff_debug
+[675.180s] Consolidate compiler generated dependencies of target auto_aim_debug_mpc
+[675.197s] [ 95%] Building CXX object CMakeFiles/auto_aim_debug_mpc.dir/src/auto_aim_debug_mpc.cpp.o
+[710.118s] [ 96%] Linking CXX executable auto_aim_debug_mpc
+[713.173s] [ 96%] Built target auto_aim_debug_mpc
+[713.205s] Consolidate compiler generated dependencies of target standard_mpc
+[713.223s] [ 97%] Building CXX object CMakeFiles/standard_mpc.dir/src/standard_mpc.cpp.o
+[751.554s] [ 97%] Linking CXX executable standard_mpc
+[754.549s] [ 97%] Built target standard_mpc
+[754.582s] Consolidate compiler generated dependencies of target mt_standard
+[754.610s] [ 97%] Building CXX object CMakeFiles/mt_standard.dir/src/mt_standard.cpp.o
+[782.515s] [ 98%] Linking CXX executable mt_standard
+[785.666s] [ 98%] Built target mt_standard
+[785.695s] Consolidate compiler generated dependencies of target standard
+[785.715s] [ 99%] Building CXX object CMakeFiles/standard.dir/src/standard.cpp.o
+[816.615s] [100%] Linking CXX executable standard
+[819.730s] [100%] Built target standard
+[819.747s] Invoked command in '/home/root1/共享文件/tongji/sp_vision_25/build/sp_vision' returned '0': /opt/cmake-3.22/bin/cmake --build /home/root1/共享文件/tongji/sp_vision_25/build/sp_vision -- -j8 -l8

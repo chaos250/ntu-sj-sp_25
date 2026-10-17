@@ -1,0 +1,109 @@
+[0.030s] Invoking command in '/home/root1/共享文件/tongji/sp_vision_25/build/sp_vision': /opt/cmake-3.22/bin/cmake --build /home/root1/共享文件/tongji/sp_vision_25/build/sp_vision -- -j8 -l8
+[0.083s] Consolidate compiler generated dependencies of target tinympcstatic
+[0.099s] [  5%] Built target tinympcstatic
+[0.120s] Consolidate compiler generated dependencies of target omniperception
+[0.137s] [  7%] Built target omniperception
+[0.162s] Consolidate compiler generated dependencies of target tools
+[0.189s] [ 16%] Built target tools
+[0.203s] Consolidate compiler generated dependencies of target serial
+[0.217s] [ 20%] Built target serial
+[0.246s] Consolidate compiler generated dependencies of target split_video
+[0.267s] [ 21%] Built target split_video
+[0.295s] Consolidate compiler generated dependencies of target io
+[0.317s] [ 22%] Building CXX object io/CMakeFiles/io.dir/gimbal/gimbal.cpp.o
+[24.364s] [ 23%] Linking CXX static library libio.a
+[24.600s] [ 31%] Built target io
+[24.637s] Consolidate compiler generated dependencies of target calibrate_robotworld_handeye
+[24.659s] [ 33%] Built target calibrate_robotworld_handeye
+[24.684s] Consolidate compiler generated dependencies of target fire_test
+[24.705s] [ 33%] Linking CXX executable fire_test
+[26.286s] [ 34%] Built target fire_test
+[26.305s] Consolidate compiler generated dependencies of target gimbal_response_test
+[26.316s] [ 35%] Linking CXX executable gimbal_response_test
+[27.840s] [ 36%] Built target gimbal_response_test
+[27.865s] Consolidate compiler generated dependencies of target multi_usbcamera_test
+[27.875s] [ 37%] Linking CXX executable multi_usbcamera_test
+[29.695s] [ 38%] Built target multi_usbcamera_test
+[29.718s] Consolidate compiler generated dependencies of target usbcamera_test
+[29.739s] [ 39%] Linking CXX executable usbcamera_test
+[31.295s] [ 40%] Built target usbcamera_test
+[31.317s] Consolidate compiler generated dependencies of target dm_test
+[31.339s] [ 41%] Linking CXX executable dm_test
+[32.823s] [ 42%] Built target dm_test
+[32.844s] Consolidate compiler generated dependencies of target cboard_test
+[32.857s] [ 43%] Linking CXX executable cboard_test
+[34.339s] [ 43%] Built target cboard_test
+[34.354s] Consolidate compiler generated dependencies of target camera_test
+[34.374s] [ 44%] Linking CXX executable camera_test
+[36.139s] [ 45%] Built target camera_test
+[36.159s] Consolidate compiler generated dependencies of target capture
+[36.180s] [ 46%] Linking CXX executable capture
+[37.996s] [ 47%] Built target capture
+[38.069s] Consolidate compiler generated dependencies of target auto_aim
+[38.097s] [ 48%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/solver.cpp.o
+[71.851s] [ 49%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/target.cpp.o
+[103.025s] [ 60%] Built target auto_aim
+[103.046s] Consolidate compiler generated dependencies of target calibrate_handeye
+[103.068s] [ 61%] Built target calibrate_handeye
+[103.087s] Consolidate compiler generated dependencies of target camera_thread_test
+[103.113s] [ 62%] Linking CXX executable camera_thread_test
+[105.614s] [ 63%] Built target camera_thread_test
+[105.625s] Consolidate compiler generated dependencies of target detector_video_test
+[105.646s] [ 64%] Linking CXX executable detector_video_test
+[108.051s] [ 65%] Built target detector_video_test
+[108.070s] Consolidate compiler generated dependencies of target usbcamera_detect_test
+[108.086s] [ 66%] Linking CXX executable usbcamera_detect_test
+[110.632s] [ 67%] Built target usbcamera_detect_test
+[110.652s] Consolidate compiler generated dependencies of target handeye_test
+[110.673s] [ 67%] Linking CXX executable handeye_test
+[113.303s] [ 68%] Built target handeye_test
+[113.322s] Consolidate compiler generated dependencies of target minimum_vision_system
+[113.341s] [ 69%] Linking CXX executable minimum_vision_system
+[115.921s] [ 70%] Built target minimum_vision_system
+[115.948s] Consolidate compiler generated dependencies of target gimbal_test
+[115.969s] [ 71%] Linking CXX executable gimbal_test
+[118.433s] [ 72%] Built target gimbal_test
+[118.461s] Consolidate compiler generated dependencies of target planner_test
+[118.472s] [ 72%] Linking CXX executable planner_test
+[120.900s] [ 73%] Built target planner_test
+[120.926s] Consolidate compiler generated dependencies of target planner_test_offline
+[120.947s] [ 74%] Linking CXX executable planner_test_offline
+[123.295s] [ 75%] Built target planner_test_offline
+[123.313s] Consolidate compiler generated dependencies of target cam_preview
+[123.329s] [ 76%] Linking CXX executable cam_preview
+[125.768s] [ 77%] Built target cam_preview
+[125.785s] Consolidate compiler generated dependencies of target camera_detect_test
+[125.805s] [ 77%] Linking CXX executable camera_detect_test
+[128.358s] [ 78%] Built target camera_detect_test
+[128.393s] Consolidate compiler generated dependencies of target auto_aim_test
+[128.414s] [ 79%] Linking CXX executable auto_aim_test
+[130.853s] [ 80%] Built target auto_aim_test
+[130.870s] Consolidate compiler generated dependencies of target standard1
+[130.893s] [ 81%] Linking CXX executable standard1
+[133.471s] [ 82%] Built target standard1
+[133.520s] Consolidate compiler generated dependencies of target auto_buff
+[133.549s] [ 87%] Built target auto_buff
+[133.566s] Consolidate compiler generated dependencies of target calibrate_camera
+[133.582s] [ 89%] Built target calibrate_camera
+[133.611s] Consolidate compiler generated dependencies of target auto_buff_test
+[133.633s] [ 90%] Linking CXX executable auto_buff_test
+[135.936s] [ 91%] Built target auto_buff_test
+[135.956s] Consolidate compiler generated dependencies of target auto_buff_debug_mpc
+[135.978s] [ 92%] Linking CXX executable auto_buff_debug_mpc
+[138.343s] [ 93%] Built target auto_buff_debug_mpc
+[138.382s] Consolidate compiler generated dependencies of target auto_buff_debug
+[138.404s] [ 93%] Linking CXX executable auto_buff_debug
+[140.877s] [ 94%] Built target auto_buff_debug
+[140.899s] Consolidate compiler generated dependencies of target auto_aim_debug_mpc
+[140.917s] [ 95%] Linking CXX executable auto_aim_debug_mpc
+[143.875s] [ 96%] Built target auto_aim_debug_mpc
+[143.891s] Consolidate compiler generated dependencies of target standard_mpc
+[143.911s] [ 96%] Linking CXX executable standard_mpc
+[146.918s] [ 97%] Built target standard_mpc
+[146.938s] Consolidate compiler generated dependencies of target mt_standard
+[146.974s] [ 98%] Linking CXX executable mt_standard
+[149.893s] [ 98%] Built target mt_standard
+[149.912s] Consolidate compiler generated dependencies of target standard
+[149.931s] [ 99%] Linking CXX executable standard
+[152.839s] [100%] Built target standard
+[152.858s] Invoked command in '/home/root1/共享文件/tongji/sp_vision_25/build/sp_vision' returned '0': /opt/cmake-3.22/bin/cmake --build /home/root1/共享文件/tongji/sp_vision_25/build/sp_vision -- -j8 -l8

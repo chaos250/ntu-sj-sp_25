@@ -1,0 +1,81 @@
+CMake Warning at io/CMakeLists.txt:52 (message):
+  ROS2 not found, skipping ROS2 specific code.
+
+
+/home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/planner/tinympc/admm.cpp: In function ‘tinyVector project_soc(tinyVector, float)’:
+/home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/planner/tinympc/admm.cpp:40:42: warning: ‘Eigen::placeholders::last’ is deprecated [-Wdeprecated-declarations]
+   40 |     tinytype u0 = s(Eigen::placeholders::last) * mu;
+      |                                          ^~~~
+In file included from /usr/include/eigen3/Eigen/Core:265,
+                 from /usr/include/eigen3/Eigen/Dense:1,
+                 from /usr/include/eigen3/Eigen/Eigen:1,
+                 from /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/planner/tinympc/types.hpp:3,
+                 from /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/planner/tinympc/admm.hpp:3,
+                 from /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/planner/tinympc/admm.cpp:3:
+/usr/include/eigen3/Eigen/src/Core/util/IndexedViewHelper.h:180:40: note: declared here
+  180 |   EIGEN_DEPRECATED static const last_t last = Eigen::last;   // PLEASE use Eigen::last   instead of Eigen::placeholders::last
+      |                                        ^~~~
+/home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp: In member function ‘io::Command omniperception::Decider::decide(auto_aim::YOLO&, const Vector3d&, io::USBCamera&, io::USBCamera&, io::Camera&)’:
+/home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:62:36: warning: narrowing conversion of ‘tools::limit_rad((((double)((const Eigen::DenseCoeffsBase<Eigen::Matrix<double, 3, 1>, 0>*)(& gimbal_pos))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 3, 1>, 0>::operator[](0)) + (((Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>*)(& delta_angle))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>::operator[](0) / 5.7299999999999997e+1)))’ from ‘double’ to ‘float’ [-Wnarrowing]
+   62 |       true, false, tools::limit_rad(gimbal_pos[0] + delta_angle[0] / 57.3),
+      |                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:63:23: warning: narrowing conversion of ‘tools::limit_rad((((Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>*)(& delta_angle))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>::operator[](1) / 5.7299999999999997e+1))’ from ‘double’ to ‘float’ [-Wnarrowing]
+   63 |       tools::limit_rad(delta_angle[1] / 57.3)};
+      |       ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+/home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp: In member function ‘io::Command omniperception::Decider::decide(auto_aim::YOLO&, const Vector3d&, io::Camera&)’:
+/home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:87:36: warning: narrowing conversion of ‘tools::limit_rad((((double)((const Eigen::DenseCoeffsBase<Eigen::Matrix<double, 3, 1>, 0>*)(& gimbal_pos))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 3, 1>, 0>::operator[](0)) + (((Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>*)(& delta_angle))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>::operator[](0) / 5.7299999999999997e+1)))’ from ‘double’ to ‘float’ [-Wnarrowing]
+   87 |       true, false, tools::limit_rad(gimbal_pos[0] + delta_angle[0] / 57.3),
+      |                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:88:23: warning: narrowing conversion of ‘tools::limit_rad((((Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>*)(& delta_angle))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>::operator[](1) / 5.7299999999999997e+1))’ from ‘double’ to ‘float’ [-Wnarrowing]
+   88 |       tools::limit_rad(delta_angle[1] / 57.3)};
+      |       ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+/home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp: In member function ‘io::Command omniperception::Decider::decide(const std::vector<omniperception::DetectionResult>&)’:
+/home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:106:38: warning: narrowing conversion of ‘dr.omniperception::DetectionResult::delta_yaw’ from ‘double’ to ‘float’ [-Wnarrowing]
+  106 |   return io::Command{true, false, dr.delta_yaw, dr.delta_pitch};
+      |                                   ~~~^~~~~~~~~
+/home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:106:52: warning: narrowing conversion of ‘dr.omniperception::DetectionResult::delta_pitch’ from ‘double’ to ‘float’ [-Wnarrowing]
+  106 |   return io::Command{true, false, dr.delta_yaw, dr.delta_pitch};
+      |                                                 ~~~^~~~~~~~~~~
+/home/root1/共享文件/tongji/sp_vision_25/tests/gimbal_response_test.cpp: In function ‘int main(int, char**)’:
+/home/root1/共享文件/tongji/sp_vision_25/tests/gimbal_response_test.cpp:130:40: warning: narrowing conversion of ‘tools::limit_rad((cmd_angle / 5.7299999999999997e+1))’ from ‘double’ to ‘float’ [-Wnarrowing]
+  130 |       command = {1, 0, tools::limit_rad(cmd_angle / 57.3), 0};
+      |                        ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+/home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/aimer.cpp: In member function ‘io::Command auto_aim::Aimer::aim(std::__cxx11::list<auto_aim::Target>, std::chrono::_V2::steady_clock::time_point, double, bool)’:
+/home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/aimer.cpp:143:24: warning: narrowing conversion of ‘yaw’ from ‘double’ to ‘float’ [-Wnarrowing]
+  143 |   return {true, false, yaw, pitch};
+      |                        ^~~
+/home/root1/共享文件/tongji/sp_vision_25/tasks/auto_aim/aimer.cpp:143:29: warning: narrowing conversion of ‘pitch’ from ‘double’ to ‘float’ [-Wnarrowing]
+  143 |   return {true, false, yaw, pitch};
+      |                             ^~~~~
+/home/root1/共享文件/tongji/sp_vision_25/tasks/auto_buff/yolo11_buff.cpp: In member function ‘std::vector<auto_buff::YOLO11_BUFF::Object> auto_buff::YOLO11_BUFF::get_multicandidateboxes(cv::Mat&)’:
+/home/root1/共享文件/tongji/sp_vision_25/tasks/auto_buff/yolo11_buff.cpp:57:57: warning: ‘T* ov::Tensor::data() const [with T = const float; datatype = float]’ is deprecated: This function will return const T* in 2026.0. Check if used correctly [-Wdeprecated-declarations]
+   57 |   const float * output_buffer = output.data<const float>();
+      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~^~
+In file included from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/descriptor/tensor.hpp:19,
+                 from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/descriptor/input.hpp:11,
+                 from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/node.hpp:24,
+                 from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/model.hpp:18,
+                 from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/graph_util.hpp:20,
+                 from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/core.hpp:20,
+                 from /opt/intel/openvino_2025.4.0/runtime/include/openvino/openvino.hpp:13,
+                 from /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_buff/yolo11_buff.hpp:7,
+                 from /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_buff/yolo11_buff.cpp:1:
+/opt/intel/openvino_2025.4.0/runtime/include/openvino/runtime/tensor.hpp:258:8: note: declared here
+  258 |     T* data() const {
+      |        ^~~~
+/home/root1/共享文件/tongji/sp_vision_25/tasks/auto_buff/yolo11_buff.cpp: In member function ‘std::vector<auto_buff::YOLO11_BUFF::Object> auto_buff::YOLO11_BUFF::get_onecandidatebox(cv::Mat&)’:
+/home/root1/共享文件/tongji/sp_vision_25/tasks/auto_buff/yolo11_buff.cpp:162:57: warning: ‘T* ov::Tensor::data() const [with T = const float; datatype = float]’ is deprecated: This function will return const T* in 2026.0. Check if used correctly [-Wdeprecated-declarations]
+  162 |   const float * output_buffer = output.data<const float>();
+      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~^~
+In file included from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/descriptor/tensor.hpp:19,
+                 from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/descriptor/input.hpp:11,
+                 from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/node.hpp:24,
+                 from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/model.hpp:18,
+                 from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/graph_util.hpp:20,
+                 from /opt/intel/openvino_2025.4.0/runtime/include/openvino/core/core.hpp:20,
+                 from /opt/intel/openvino_2025.4.0/runtime/include/openvino/openvino.hpp:13,
+                 from /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_buff/yolo11_buff.hpp:7,
+                 from /home/root1/共享文件/tongji/sp_vision_25/tasks/auto_buff/yolo11_buff.cpp:1:
+/opt/intel/openvino_2025.4.0/runtime/include/openvino/runtime/tensor.hpp:258:8: note: declared here
+  258 |     T* data() const {
+      |        ^~~~

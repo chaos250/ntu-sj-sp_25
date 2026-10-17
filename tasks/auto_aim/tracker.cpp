@@ -18,12 +18,18 @@ Tracker::Tracker(const std::string & config_path, Solver & solver)
   last_timestamp_(std::chrono::steady_clock::now()),
   omni_target_priority_{ArmorPriority::fifth}
 {
+  // 从配置文件读取跟踪器参数：敌方颜色、最小检测帧数、最大临时丢失帧数等
   auto yaml = YAML::LoadFile(config_path);
   enemy_color_ = (yaml["enemy_color"].as<std::string>() == "red") ? Color::red : Color::blue;
   min_detect_count_ = yaml["min_detect_count"].as<int>();
   max_temp_lost_count_ = yaml["max_temp_lost_count"].as<int>();
   outpost_max_temp_lost_count_ = yaml["outpost_max_temp_lost_count"].as<int>();
   normal_temp_lost_count_ = max_temp_lost_count_;
+
+  // 帧间隔上限（秒）。缺省 0.1s，按 ~100fps 的推理帧率设计。
+  // 用 CPU 推理、或相机掉帧时，帧间隔会大于 0.1s，此时必须调大该值，
+  // 否则每一帧都会把跟踪状态打成 "lost"，目标永远确认不了。
+  if (yaml["max_dt"]) max_dt_ = yaml["max_dt"].as<double>();
 }
 
 std::string Tracker::state() const { return state_; }
@@ -34,8 +40,8 @@ std::list<Target> Tracker::track(
   auto dt = tools::delta_time(t, last_timestamp_);
   last_timestamp_ = t;
 
-  // 时间间隔过长，说明可能发生了相机离线
-  if (state_ != "lost" && dt > 0.1) {
+  // 时间间隔过长，可能相机卡顿或断开，此时认为丢失目标
+  if (state_ != "lost" && dt > max_dt_) {
     tools::logger()->warn("[Tracker] Large dt: {:.3f}s", dt);
     state_ = "lost";
   }
@@ -49,7 +55,7 @@ std::list<Target> Tracker::track(
   //            solver_.oupost_reprojection_error(a, -15 * CV_PI / 180.0);
   // });
 
-  // 优先选择靠近图像中心的装甲板
+  // 优先选择靠近图像中心的装甲板（排序靠近中心者优先）
   armors.sort([](const Armor & a, const Armor & b) {
     cv::Point2f img_center(1440 / 2, 1080 / 2);  // TODO
     auto distance_1 = cv::norm(a.center - img_center);
@@ -109,7 +115,7 @@ std::tuple<omniperception::DetectionResult, std::list<Target>> Tracker::track(
   last_timestamp_ = t;
 
   // 时间间隔过长，说明可能发生了相机离线
-  if (state_ != "lost" && dt > 0.1) {
+  if (state_ != "lost" && dt > max_dt_) {
     tools::logger()->warn("[Tracker] Large dt: {:.3f}s", dt);
     state_ = "lost";
   }
@@ -179,6 +185,7 @@ std::tuple<omniperception::DetectionResult, std::list<Target>> Tracker::track(
 
 void Tracker::state_machine(bool found)
 {
+  // 状态机：lost -> detecting -> tracking -> temp_lost/switching
   if (state_ == "lost") {
     if (!found) return;
 

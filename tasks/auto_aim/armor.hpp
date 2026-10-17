@@ -106,6 +106,12 @@ struct Armor
 
   double yaw_raw;  // rad
 
+  // 联调门控量（Solver::optimize_yaw 填充，未经过该路径的装甲板保持默认 0，
+  // Target 侧据此对噪声帧降权，见 Target::update_ypda）：
+  double yaw_slip = 0.0;  // rad，自由搜索 best 相对 raw 的滑移 |best-raw|
+  double yaw_drop = 0.0;  // px，raw 附近误差面平坦度（谷地深度）
+  double edge_off = 0.0;  // 板图像中心相对光轴偏移角的正切，贴画面边缘时大
+
   Armor(const Lightbar & left, const Lightbar & right);
   Armor(
     int class_id, float confidence, const cv::Rect & box, std::vector<cv::Point2f> armor_keypoints);

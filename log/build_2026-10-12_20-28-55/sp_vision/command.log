@@ -1,0 +1,4 @@
+Invoking command in '/home/root1/共享文件/tongji/sp_vision_25/build/sp_vision': /opt/cmake-3.22/bin/cmake /home/root1/共享文件/tongji/sp_vision_25 -DCMAKE_INSTALL_PREFIX=/home/root1/共享文件/tongji/sp_vision_25/install/sp_vision
+Invoked command in '/home/root1/共享文件/tongji/sp_vision_25/build/sp_vision' returned '0': /opt/cmake-3.22/bin/cmake /home/root1/共享文件/tongji/sp_vision_25 -DCMAKE_INSTALL_PREFIX=/home/root1/共享文件/tongji/sp_vision_25/install/sp_vision
+Invoking command in '/home/root1/共享文件/tongji/sp_vision_25/build/sp_vision': /opt/cmake-3.22/bin/cmake --build /home/root1/共享文件/tongji/sp_vision_25/build/sp_vision -- -j8 -l8
+Invoked command in '/home/root1/共享文件/tongji/sp_vision_25/build/sp_vision' returned '0': /opt/cmake-3.22/bin/cmake --build /home/root1/共享文件/tongji/sp_vision_25/build/sp_vision -- -j8 -l8

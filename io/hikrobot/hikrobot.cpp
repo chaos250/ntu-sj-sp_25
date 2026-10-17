@@ -89,6 +89,20 @@ void HikRobot::capture_start()
   set_float_value("Gain", gain_);
   MV_CC_SetFrameRate(handle_, 150);
 
+  // ===== 新增：读取并打印相机支持的参数范围 =====
+  MVCC_FLOATVALUE exposure_range;
+  if (MV_CC_GetFloatValue(handle_, "ExposureTime", &exposure_range) == MV_OK) {
+      tools::logger()->info("ExposureTime range: {} ~ {} us, current: {}",
+                            exposure_range.fMin, exposure_range.fMax, exposure_range.fCurValue);
+  }
+
+  MVCC_FLOATVALUE gain_range;
+  if (MV_CC_GetFloatValue(handle_, "Gain", &gain_range) == MV_OK) {
+      tools::logger()->info("Gain range: {} ~ {}, current: {}",
+                            gain_range.fMin, gain_range.fMax, gain_range.fCurValue);
+  }
+  // ===== 新增结束 =====
+
   ret = MV_CC_StartGrabbing(handle_);
   if (ret != MV_OK) {
     tools::logger()->warn("MV_CC_StartGrabbing failed: {:#x}", ret);
@@ -103,6 +117,11 @@ void HikRobot::capture_start()
     MV_FRAME_OUT raw;
     MV_CC_PIXEL_CONVERT_PARAM cvt_param;
 
+    // 连续取流超时的计数。单次 MV_E_NODATA 只说明这一帧没按期到达
+    // （USB/虚拟机直通下很常见），不代表相机掉线，必须重试而不是退出。
+    int nodata_count = 0;
+    constexpr int nodata_give_up = 50;  // 50 × 100ms = 5s 完全无帧才认为真掉线
+
     while (!capture_quit_) {
       std::this_thread::sleep_for(1ms);
 
@@ -110,9 +129,23 @@ void HikRobot::capture_start()
       unsigned int nMsec = 100;
 
       ret = MV_CC_GetImageBuffer(handle_, &raw, nMsec);
+      if (ret == MV_E_NODATA) {
+        if (++nodata_count == 1)
+          tools::logger()->warn("MV_CC_GetImageBuffer: 取流超时 ({}ms 无帧)，继续等待", nMsec);
+        else if (nodata_count >= nodata_give_up) {
+          tools::logger()->warn(
+            "MV_CC_GetImageBuffer: 已连续 {}s 无帧，停止采集", nodata_count * nMsec / 1000);
+          break;
+        }
+        continue;
+      }
       if (ret != MV_OK) {
         tools::logger()->warn("MV_CC_GetImageBuffer failed: {:#x}", ret);
         break;
+      }
+      if (nodata_count > 0) {
+        tools::logger()->info("MV_CC_GetImageBuffer: 取流恢复正常 (此前等待 {} 次超时)", nodata_count);
+        nodata_count = 0;
       }
 
       auto timestamp = std::chrono::steady_clock::now();

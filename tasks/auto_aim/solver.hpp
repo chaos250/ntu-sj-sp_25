@@ -37,7 +37,8 @@ private:
 
   void optimize_yaw(Armor & armor) const;
 
-  double armor_reprojection_error(const Armor & armor, double yaw, const double & inclined) const;
+  double armor_reprojection_error(
+    const Armor & armor, double yaw, const double & inclined, double raw_pull_k = 0.0) const;
   double SJTU_cost(
     const std::vector<cv::Point2f> & cv_refs, const std::vector<cv::Point2f> & cv_pts,
     const double & inclined) const;

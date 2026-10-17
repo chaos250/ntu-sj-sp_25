@@ -36,6 +36,32 @@ public:
     not_empty_condition_.notify_all();
   }
 
+  // 队列满时不丢帧也不丢最旧帧，直接返回 false 交给调用方处理。
+  // push() 在满时要么静默丢新帧要么静默丢最旧帧，调用方都拿不到反馈，
+  // 对"入队失败就要把资源还回去"的场景不够用。
+  bool try_push(const T & value)
+  {
+    std::unique_lock<std::mutex> lock(mutex_);
+
+    if (queue_.size() >= max_size_) return false;
+
+    queue_.push(value);
+    not_empty_condition_.notify_all();
+    return true;
+  }
+
+  // 非阻塞取；队列为空返回 false
+  bool try_pop(T & value)
+  {
+    std::unique_lock<std::mutex> lock(mutex_);
+
+    if (queue_.empty()) return false;
+
+    value = std::move(queue_.front());
+    queue_.pop();
+    return true;
+  }
+
   void pop(T & value)
   {
     std::unique_lock<std::mutex> lock(mutex_);
@@ -88,6 +114,21 @@ public:
     std::unique_lock<std::mutex> lock(mutex_);
     return queue_.empty();
   }
+
+  bool full()
+  {
+    std::unique_lock<std::mutex> lock(mutex_);
+    return queue_.size() >= max_size_;
+  }
+
+  size_t size()
+  {
+    std::unique_lock<std::mutex> lock(mutex_);
+    return queue_.size();
+  }
+
+  // 容量在构造后不再变化，无需加锁
+  size_t max_size() const { return max_size_; }
 
   void clear()
   {

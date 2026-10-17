@@ -96,7 +96,7 @@ void CBoard::callback(const can_frame & frame)
     if (bullet_speed > 0 && tools::delta_time(now, last_log_time) >= 1.0) {
       tools::logger()->info(
         "[CBoard] Bullet speed: {:.2f} m/s, Mode: {}, Shoot mode: {}, FT angle: {:.2f} rad",
-        bullet_speed, MODES[mode], SHOOT_MODES[shoot_mode], ft_angle);
+        bullet_speed, MODES[static_cast<int>(mode)], SHOOT_MODES[shoot_mode], ft_angle);
       last_log_time = now;
     }
   }

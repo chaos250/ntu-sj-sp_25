@@ -3,6 +3,7 @@
 #include <thread>
 
 #include "io/camera.hpp"
+#include "io/gimbal/gimbal.hpp"  // USB CDC 虚拟串口 (SP 协议, com_port: /dev/gimbal)
 #include "io/dm_imu/dm_imu.hpp"
 #include "tasks/auto_aim/aimer.hpp"
 #include "tasks/auto_aim/multithread/commandgener.hpp"
@@ -42,9 +43,9 @@ int main(int argc, char * argv[])
   tools::Recorder recorder;
 
   io::Camera camera(config_path);
-  io::CBoard cboard(config_path);
+  io::Gimbal gimbal(config_path);  // 串口路径来自配置项 com_port (默认 /dev/gimbal)
 
-  auto_aim::multithread::MultiThreadDetector detector(config_path);
+  auto_aim::multithread::MultiThreadDetector detector(config_path, true);  // true: 弹检测可视化窗口
   auto_aim::Solver solver(config_path);
   auto_aim::Tracker tracker(config_path, solver);
   auto_aim::Aimer aimer(config_path);
@@ -56,36 +57,63 @@ int main(int argc, char * argv[])
   auto_buff::BigTarget buff_big_target;
   auto_buff::Aimer buff_aimer(config_path);
 
-  auto_aim::multithread::CommandGener commandgener(shooter, aimer, cboard, plotter);
+  // 注意：gimbal 必须在此声明之前构造，CommandGener 持有它的引用
+  auto_aim::multithread::CommandGener commandgener(shooter, aimer, gimbal, plotter, true);
 
-  std::atomic<io::Mode> mode{io::Mode::idle};
-  auto last_mode{io::Mode::idle};
+  std::atomic<io::GimbalMode> mode{io::GimbalMode::IDLE};
+  auto last_mode{io::GimbalMode::IDLE};
+  auto last_crc_log = std::chrono::steady_clock::now();
 
-  auto detect_thread = std::thread([&]() {
+    auto detect_thread = std::thread([&]() {
     cv::Mat img;
     std::chrono::steady_clock::time_point t;
 
     while (!exiter.exit()) {
-      if (mode.load() == io::Mode::auto_aim) {
+      if (mode.load() == io::GimbalMode::AUTO_AIM) {
         camera.read(img, t);
         detector.push(img, t);
       } else
-        continue;
+        std::this_thread::sleep_for(5ms);  // 非自瞄模式不忙等，避免白占 CPU 抢推理资源
     }
   });
 
   while (!exiter.exit()) {
-    mode = cboard.mode;
+    // Gimbal 自带接收线程，无需像串口方案那样轮询 update()
+    mode = gimbal.mode();
+
+    // 每秒显示一次串口 CRC 正确率（最近 5s 滑动窗口 + 累计），各模式下都会打印
+    auto now = std::chrono::steady_clock::now();
+    if (std::chrono::duration<double>(now - last_crc_log).count() >= 1.0) {
+      if (!gimbal.crc_check_enabled()) {
+        tools::logger()->info("[CRC] crc_check 已关闭，无统计（请把配置项 crc_check 改回 true）");
+      } else {
+        double rate = gimbal.crc_rate();
+        if (rate < 0.0) {
+          tools::logger()->info("[CRC] no frame in last 5s, lifetime good/total = {}/{}",
+                                gimbal.crc_good(), gimbal.crc_total());
+        } else {
+          tools::logger()->info("[CRC] rate = {:.1f}% (last 5s), lifetime good/total = {}/{}",
+                                rate, gimbal.crc_good(), gimbal.crc_total());
+        }
+      }
+      last_crc_log = now;
+    }
 
     if (last_mode != mode) {
-      tools::logger()->info("Switch to {}", io::MODES[mode]);
+      tools::logger()->info("Switch to {}", gimbal.str(mode.load()));
       last_mode = mode.load();
+      // 切出自瞄时立刻清空决策线程的最新帧：否则 commandgener 会继续用旧目标
+      // 发 ~0.2s 自瞄指令，与打符指令冲突导致云台抖动
+      if (mode.load() != io::GimbalMode::AUTO_AIM)
+        commandgener.push({}, std::chrono::steady_clock::now(), 0, Eigen::Vector3d::Zero());
     }
 
     /// 自瞄
-    if (mode.load() == io::Mode::auto_aim) {
+    if (mode.load() == io::GimbalMode::AUTO_AIM) {
       auto [img, armors, t] = detector.debug_pop();
-      Eigen::Quaterniond q = cboard.imu_at(t - 1ms);
+      // 注意：t 来自检测线程读到的图像时间（已滞后一个推理周期），
+      // Gimbal::q() 会用最近两帧 IMU 反向外推到该时刻
+      Eigen::Quaterniond q = gimbal.q(t - 1ms);
 
       // recorder.record(img, q, t);
 
@@ -95,18 +123,18 @@ int main(int argc, char * argv[])
 
       auto targets = tracker.track(armors, t);
 
-      commandgener.push(targets, t, cboard.bullet_speed, ypr);  // 发送给决策线程
+      commandgener.push(targets, t, gimbal.state().bullet_speed, ypr);  // 发送给决策线程
 
     }
 
     /// 打符
-    else if (mode.load() == io::Mode::small_buff || mode.load() == io::Mode::big_buff) {
+    else if (mode.load() == io::GimbalMode::SMALL_BUFF || mode.load() == io::GimbalMode::BIG_BUFF) {
       cv::Mat img;
       Eigen::Quaterniond q;
       std::chrono::steady_clock::time_point t;
 
       camera.read(img, t);
-      q = cboard.imu_at(t - 1ms);
+      q = gimbal.q(t - 1ms);
 
       // recorder.record(img, q, t);
 
@@ -117,19 +145,21 @@ int main(int argc, char * argv[])
       buff_solver.solve(power_runes);
 
       io::Command buff_command;
-      if (mode.load() == io::Mode::small_buff) {
+      if (mode.load() == io::GimbalMode::SMALL_BUFF) {
         buff_small_target.get_target(power_runes, t);
         auto target_copy = buff_small_target;
-        buff_command = buff_aimer.aim(target_copy, t, cboard.bullet_speed, true);
-      } else if (mode.load() == io::Mode::big_buff) {
+        buff_command = buff_aimer.aim(target_copy, t, gimbal.state().bullet_speed, true);
+      } else if (mode.load() == io::GimbalMode::BIG_BUFF) {
         buff_big_target.get_target(power_runes, t);
         auto target_copy = buff_big_target;
-        buff_command = buff_aimer.aim(target_copy, t, cboard.bullet_speed, true);
+        buff_command = buff_aimer.aim(target_copy, t, gimbal.state().bullet_speed, true);
       }
-      cboard.send(buff_command);
+      gimbal.send(buff_command);
 
-    } else
+    } else {
+      std::this_thread::sleep_for(2ms);  // IDLE 等非自瞄模式不忙等
       continue;
+    }
   }
 
   detect_thread.join();

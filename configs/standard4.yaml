@@ -7,7 +7,7 @@ classify_model: assets/tiny_resnet.onnx
 yolo11_model_path: assets/yolo11.xml
 yolov8_model_path: assets/yolov8.xml
 yolov5_model_path: assets/yolov5.xml
-device: GPU
+device: CPU
 min_confidence: 0.8
 use_traditional: true
 
@@ -79,6 +79,8 @@ can_interface: "can0"
 
 #####-----gimbal参数-----#####
 com_port: "/dev/gimbal"
+# 含义见 standard3.yaml：固件 crc16 未实现，联调期关闭校验
+crc_check: false
 
 #####-----planner-----#####
 fire_thresh: 0.003

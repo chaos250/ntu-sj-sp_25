@@ -8,24 +8,17 @@
 #include <string>
 #include <vector>
 
-#include "io/command.hpp"
+#include "io/command.hpp"      // 包含 Mode 和 Command 的定义
 #include "io/socketcan.hpp"
 #include "tools/logger.hpp"
 #include "tools/thread_safe_queue.hpp"
 
 namespace io
 {
-enum Mode
-{
-  idle,
-  auto_aim,
-  small_buff,
-  big_buff,
-  outpost
-};
-const std::vector<std::string> MODES = {"idle", "auto_aim", "small_buff", "big_buff", "outpost"};
+// ===== 删除这里的 enum Mode 和 MODES 定义 =====
+// 它们现在由 io/command.hpp 统一提供
 
-// 哨兵专有
+// 哨兵专有 ShootMode 保留
 enum ShootMode
 {
   left_shoot,
@@ -38,9 +31,9 @@ class CBoard
 {
 public:
   double bullet_speed;
-  Mode mode;
+  Mode mode;               // 现在使用 command.hpp 中的 enum class Mode
   ShootMode shoot_mode;
-  double ft_angle;  //无人机专有
+  double ft_angle;
 
   CBoard(const std::string & config_path);
 
@@ -55,7 +48,7 @@ private:
     std::chrono::steady_clock::time_point timestamp;
   };
 
-  tools::ThreadSafeQueue<IMUData> queue_;  // 必须在can_之前初始化，否则存在死锁的可能
+  tools::ThreadSafeQueue<IMUData> queue_;
   SocketCAN can_;
   IMUData data_ahead_;
   IMUData data_behind_;

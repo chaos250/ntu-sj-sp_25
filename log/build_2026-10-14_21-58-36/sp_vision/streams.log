@@ -1,0 +1,46 @@
+[0.042s] Invoking command in '/home/root1/共享文件/tongji/sp_vision_25/build/sp_vision': /opt/cmake-3.22/bin/cmake --build /home/root1/共享文件/tongji/sp_vision_25/build/sp_vision -- -j8 -l8
+[0.177s] [  5%] Built target tinympcstatic
+[0.218s] [  6%] Building CXX object tasks/omniperception/CMakeFiles/omniperception.dir/decider.cpp.o
+[26.871s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp: In member function ‘io::Command omniperception::Decider::decide(auto_aim::YOLO&, const Vector3d&, io::USBCamera&, io::USBCamera&, io::Camera&)’:
+[26.871s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:62:36: warning: narrowing conversion of ‘tools::limit_rad((((double)((const Eigen::DenseCoeffsBase<Eigen::Matrix<double, 3, 1>, 0>*)(& gimbal_pos))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 3, 1>, 0>::operator[](0)) + (((Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>*)(& delta_angle))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>::operator[](0) / 5.7299999999999997e+1)))’ from ‘double’ to ‘float’ [-Wnarrowing]
+[26.872s]    62 |       true, false, tools::limit_rad(gimbal_pos[0] + delta_angle[0] / 57.3),
+[26.872s]       |                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[26.872s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:63:23: warning: narrowing conversion of ‘tools::limit_rad((((Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>*)(& delta_angle))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>::operator[](1) / 5.7299999999999997e+1))’ from ‘double’ to ‘float’ [-Wnarrowing]
+[26.872s]    63 |       tools::limit_rad(delta_angle[1] / 57.3)};
+[26.872s]       |       ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+[26.872s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp: In member function ‘io::Command omniperception::Decider::decide(auto_aim::YOLO&, const Vector3d&, io::Camera&)’:
+[26.872s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:87:36: warning: narrowing conversion of ‘tools::limit_rad((((double)((const Eigen::DenseCoeffsBase<Eigen::Matrix<double, 3, 1>, 0>*)(& gimbal_pos))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 3, 1>, 0>::operator[](0)) + (((Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>*)(& delta_angle))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>::operator[](0) / 5.7299999999999997e+1)))’ from ‘double’ to ‘float’ [-Wnarrowing]
+[26.872s]    87 |       true, false, tools::limit_rad(gimbal_pos[0] + delta_angle[0] / 57.3),
+[26.873s]       |                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[26.873s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:88:23: warning: narrowing conversion of ‘tools::limit_rad((((Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>*)(& delta_angle))->Eigen::DenseCoeffsBase<Eigen::Matrix<double, 2, 1>, 1>::operator[](1) / 5.7299999999999997e+1))’ from ‘double’ to ‘float’ [-Wnarrowing]
+[26.873s]    88 |       tools::limit_rad(delta_angle[1] / 57.3)};
+[26.873s]       |       ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+[26.873s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp: In member function ‘io::Command omniperception::Decider::decide(const std::vector<omniperception::DetectionResult>&)’:
+[26.873s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:106:38: warning: narrowing conversion of ‘dr.omniperception::DetectionResult::delta_yaw’ from ‘double’ to ‘float’ [-Wnarrowing]
+[26.873s]   106 |   return io::Command{true, false, dr.delta_yaw, dr.delta_pitch};
+[26.873s]       |                                   ~~~^~~~~~~~~
+[26.873s] /home/root1/共享文件/tongji/sp_vision_25/tasks/omniperception/decider.cpp:106:52: warning: narrowing conversion of ‘dr.omniperception::DetectionResult::delta_pitch’ from ‘double’ to ‘float’ [-Wnarrowing]
+[26.873s]   106 |   return io::Command{true, false, dr.delta_yaw, dr.delta_pitch};
+[26.873s]       |                                                 ~~~^~~~~~~~~~~
+[26.888s] [  7%] Building CXX object tasks/omniperception/CMakeFiles/omniperception.dir/perceptron.cpp.o
+[50.685s] [  7%] Built target omniperception
+[50.724s] [ 16%] Built target tools
+[50.754s] [ 20%] Built target serial
+[50.790s] [ 21%] Built target split_video
+[50.833s] [ 31%] Built target io
+[50.874s] [ 33%] Built target calibrate_robotworld_handeye
+[50.902s] [ 34%] Built target fire_test
+[50.931s] [ 36%] Built target gimbal_response_test
+[50.970s] [ 38%] Built target multi_usbcamera_test
+[51.014s] [ 40%] Built target usbcamera_test
+[51.047s] [ 42%] Built target dm_test
+[51.077s] [ 43%] Built target cboard_test
+[51.110s] [ 45%] Built target camera_test
+[51.146s] [ 47%] Built target capture
+[51.253s] Consolidate compiler generated dependencies of target auto_aim
+[51.280s] [ 47%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/armor.cpp.o
+[58.428s] [ 48%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/target.cpp.o
+[86.021s] [ 48%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/tracker.cpp.o
+[113.740s] [ 49%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/voter.cpp.o
+[120.255s] [ 50%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/shooter.cpp.o
+[143.570s] [ 51%] Building CXX object tasks/auto_aim/CMakeFiles/auto_aim.dir/yolo.cpp.o
