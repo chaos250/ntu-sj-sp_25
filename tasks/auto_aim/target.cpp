@@ -1,5 +1,7 @@
 #include "target.hpp"
 
+#include <algorithm>
+#include <cmath>
 #include <numeric>
 
 #include "tools/logger.hpp"
@@ -204,8 +206,21 @@ void Target::update_ypda(const Armor & armor, int id)
   // Eigen::VectorXd R_dig{{4e-3, 4e-3, 1, 9e-2}};
   auto center_yaw = std::atan2(armor.xyz_in_world[1], armor.xyz_in_world[0]);
   auto delta_angle = tools::limit_rad(armor.ypr_in_world[0] - center_yaw);
+  // 位置通道测量噪声随距离自适应（2026-10-18 实测教训）：近距 PnP 帧间噪声实测
+  // ±15~30°（0.8m 处 z_yaw），固定 4e-3（≈3.7°std）过度信任噪声——Q 矩阵对 r
+  // 无过程噪声（纯随机游走），噪声经 Jacobian 持续泵高 r，实测 0.2→0.67→1.005m，
+  // r≥1 触发 diverged 误杀重锁 → 指令猛跳（"装甲板一出现就猛晃"的完整闭环）。
+  // 二轮教训（17:20 测试）：(1.5/d)^4 上限 0.20 压得太死——0.65m 处 114e-3
+  // （19°std），滤波几乎不响应、瞄准点冻结在板后 ~28°；且 P 永不收敛，偶发的
+  // 放行翻转帧经巨大速度增益把 v̂ 踢飞，to_now 预测把指令甩得与测量无关
+  // （cmd 与 z_yaw 增量相关性实测 r=0.064）。改 (1.5/d)^2 上限 0.05：
+  // 0.8m 处 14e-3（6.8°std）只压翻转噪声（门控 + r 上界 0.45 兜底），
+  // 恢复对真实运动的响应速度。
+  double d_meas = armor.ypd_in_world[2];
+  double r_pos = 4e-3 * std::pow(1.5 / std::max(d_meas, 0.4), 2.0);
+  r_pos = std::clamp(r_pos, 4e-3, 0.05);
   Eigen::VectorXd R_dig{
-    {4e-3, 4e-3, log(std::abs(delta_angle) + 1) + 1,
+    {r_pos, r_pos, log(std::abs(delta_angle) + 1) + 1,
      log(std::abs(armor.ypd_in_world[2]) + 1) / 200 + 9e-2}};
 
   //测量过程噪声偏差的方差
@@ -243,14 +258,14 @@ void Target::update_ypda(const Armor & armor, int id)
   // 增长，放行后测量权重更大，收敛反而更快。
   Eigen::VectorXd innov = z_subtract(z, h(ekf_.x));
 
-  constexpr double MAX_ANGLE_INNOV = 0.35;  // rad ≈ 20°，角度通道
-  constexpr int MAX_ANGLE_HOLD = 4;         // 帧
-  constexpr double MAX_POS_INNOV = 0.30;    // rad ≈ 17°，中心 yaw/pitch 通道
+  constexpr double MAX_ANGLE_INNOV = 0.15;  // rad ≈ 11.5°，角度通道（2026-10-18 收紧：0.35 时 15~20° 翻转帧从门缝漏入，喂出假自转）
+  constexpr int MAX_ANGLE_HOLD = 6;         // 帧（4→6：连续翻转帧容忍度提高，真实朝向突变延迟 ~150ms 仍可接受）
+  constexpr double MAX_POS_INNOV = 0.20;    // rad ≈ 17°，中心 yaw/pitch 通道
   constexpr double MAX_DIST_INNOV = 0.50;   // m，距离通道
-  constexpr int MAX_POS_HOLD = 5;           // 帧
+  constexpr int MAX_POS_HOLD = 8;           // 帧
   constexpr double R_SKIP = 1e4;            // 拒帧时 R 放大倍数（等效跳过）
   constexpr double R_SOFT = 25.0;           // 噪声帧降权倍数（不跳过）
-  constexpr double W_DECAY_MIN = 1.5;       // rad/s，|w| 超此值才衰减（真实转动不误伤）
+  constexpr double W_DECAY_MIN = 0.8;       // rad/s，|w| 超此值才衰减（1.5→0.8：真实转动创新小不会触发门控，衰减更早介入）
 
   bool gate_angle = false;
   auto model_angle = tools::limit_rad(ekf_.x[6] + id * 2 * CV_PI / armor_num_);
@@ -264,7 +279,9 @@ void Target::update_ypda(const Armor & armor, int id)
       // 假自转刹车：门控期间衰减角速度估计，让模型角停止旋转、重新接受真实
       // 测量。仅 |w| 明显偏大时衰减（真车公转半径小、转速低，不会误伤）。
       // 前哨站转速可真实达到 2.5rad/s（predict 有钳制），不做衰减。
-      if (name != ArmorName::outpost && std::abs(ekf_.x[7]) > W_DECAY_MIN) ekf_.x[7] *= 0.9;
+      // 2026-10-18 加力：0.9→0.6/帧。真实转动每帧创新仅 w×dt≈0.05rad 不会触发
+      // 门控，衰减只在翻转帧上生效，4~6 帧 hold 内即可把假 w 从 2rad/s 压到 ~0.1。
+      if (name != ArmorName::outpost && std::abs(ekf_.x[7]) > W_DECAY_MIN) ekf_.x[7] *= 0.6;
       tools::logger()->debug(
         "[Target] 角度翻转抑制: meas={:.1f}° pred={:.1f}° skip", z[3] * 57.3,
         model_angle * 57.3);
@@ -275,8 +292,12 @@ void Target::update_ypda(const Armor & armor, int id)
 
   // 位置通道门控：镜像/翻转帧会把中心 yaw/pitch/距离拉偏 ±0.5m 级（位置通道
   // 此前没有任何门控，是近距抖动放大链的一环）。超阈放大 R，连续拒帧放行。
+  // 联动（2026-11-03）：角度门控已判定本帧为镜像翻转时，位置通道同帧也一并
+  // 拒掉——翻转同时污染 yaw 和 z，近距 z 换算成俯仰角仅 ~11°，单独看会被
+  // MAX_POS_INNOV(11.5°) 漏过，造成"左右已稳、上下仍猛甩"。
   bool gate_pos = false;
   if (
+    gate_angle ||
     std::abs(innov[0]) > MAX_POS_INNOV || std::abs(innov[1]) > MAX_POS_INNOV ||
     std::abs(innov[2]) > MAX_DIST_INNOV) {
     if (pos_hold_count_ >= MAX_POS_HOLD) {
@@ -284,9 +305,9 @@ void Target::update_ypda(const Armor & armor, int id)
     } else {
       pos_hold_count_++;
       gate_pos = true;
-      if (std::abs(innov[0]) > MAX_POS_INNOV) R(0, 0) *= R_SKIP;
-      if (std::abs(innov[1]) > MAX_POS_INNOV) R(1, 1) *= R_SKIP;
-      if (std::abs(innov[2]) > MAX_DIST_INNOV) R(2, 2) *= R_SKIP;
+      if (gate_angle || std::abs(innov[0]) > MAX_POS_INNOV) R(0, 0) *= R_SKIP;
+      if (gate_angle || std::abs(innov[1]) > MAX_POS_INNOV) R(1, 1) *= R_SKIP;
+      if (gate_angle || std::abs(innov[2]) > MAX_DIST_INNOV) R(2, 2) *= R_SKIP;
       tools::logger()->debug(
         "[Target] 位置门控: innov_yaw={:.1f}° pitch={:.1f}° d={:.2f}m", innov[0] * 57.3,
         innov[1] * 57.3, innov[2]);
@@ -312,6 +333,15 @@ void Target::update_ypda(const Armor & armor, int id)
   // 钳到 0 后滤波器随时可通过后续更新重新拉回正值。
   if (ekf_.x[8] < 0.0) ekf_.x[8] = 0.0;
   if (ekf_.x[9] < 0.0) ekf_.x[9] = 0.0;
+  // r 上界软钳（2026-10-18，配合上方自适应 R 双保险）：真实 RM 目标公转半径
+  // ≤ ~0.4m，0.5~1.0 的估计值全部来自近距噪声泵。不钳时 r 涨到 diverged 阈值
+  // 1.0 触发误杀重锁（实测 2 次发散均发生在 r 撞 1.0 时刻）。只钳状态值、不
+  // 收紧 diverged()：轨道不会被杀，饱和的 r 分量由中心位置/速度通道吸收，横向
+  // 运动照样跟踪（10-14 甩板段 r 瞬时 0.53 是滤波器用 r 吸收横向运动，钳到
+  // 0.45 只损失噪声自由度、不损失跟踪能力）。
+  constexpr double R_MAX = 0.45;  // m
+  if (ekf_.x[8] > R_MAX) ekf_.x[8] = R_MAX;
+  if (ekf_.x[8] + ekf_.x[9] > R_MAX) ekf_.x[9] = R_MAX - ekf_.x[8];
 
   // 联调日志：观测与滤波后状态逐帧对照，用于定位 EKF 发散发生在测量侧
   // （z_yaw/d 帧间跳变）还是模型侧（r/l 漂移）。gate 标志：a=角度拒帧、

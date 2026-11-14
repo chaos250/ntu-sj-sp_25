@@ -120,18 +120,73 @@ int main(int argc, char * argv[])
       buff_solver.solve(power_runes);
 
       auto_aim::Plan buff_plan;
+      auto_buff::Target * buff_target = nullptr;
       if (mode.load() == io::GimbalMode::SMALL_BUFF) {
         buff_small_target.get_target(power_runes, t);
         auto target_copy = buff_small_target;
+        buff_target = &buff_small_target;
         buff_plan = buff_aimer.mpc_aim(target_copy, t, gs, true);
       } else if (mode.load() == io::GimbalMode::BIG_BUFF) {
         buff_big_target.get_target(power_runes, t);
         auto target_copy = buff_big_target;
+        buff_target = &buff_big_target;
         buff_plan = buff_aimer.mpc_aim(target_copy, t, gs, true);
       }
       gimbal.send(
         buff_plan.control, buff_plan.fire, buff_plan.yaw, buff_plan.yaw_vel, buff_plan.yaw_acc,
         buff_plan.pitch, buff_plan.pitch_vel, buff_plan.pitch_acc);
+
+      // -------------- buff 波形调试输出(与 auto_buff_debug_mpc 对齐) --------------
+      nlohmann::json data;
+
+      // buff 原始观测
+      if (power_runes.has_value()) {
+        const auto & p = power_runes.value();
+        data["buff_R_yaw"] = p.ypd_in_world[0];
+        data["buff_R_pitch"] = p.ypd_in_world[1];
+        data["buff_R_dis"] = p.ypd_in_world[2];
+        data["buff_yaw"] = p.ypr_in_world[0] * 57.3;
+        data["buff_pitch"] = p.ypr_in_world[1] * 57.3;
+        data["buff_roll"] = p.ypr_in_world[2] * 57.3;
+      }
+
+      // EKF 内部状态
+      if (buff_target && !buff_target->is_unsolve()) {
+        Eigen::VectorXd x = buff_target->ekf_x();
+        data["R_yaw"] = x[0];
+        data["R_V_yaw"] = x[1];
+        data["R_pitch"] = x[2];
+        data["R_dis"] = x[3];
+        data["yaw"] = x[4] * 57.3;
+        data["angle"] = x[5] * 57.3;
+        data["spd"] = x[6] * 57.3;
+        if (x.size() >= 10) {  // 大符:正弦波形参数
+          data["spd"] = x[6];
+          data["a"] = x[7];
+          data["w"] = x[8];
+          data["fi"] = x[9];
+          data["spd0"] = buff_target->spd;
+        }
+      }
+
+      // 云台响应
+      data["gimbal_yaw"] = gs.yaw * 57.3;
+      data["gimbal_pitch"] = gs.pitch * 57.3;
+      data["gimbal_yaw_vel"] = gs.yaw_vel * 57.3;
+      data["gimbal_pitch_vel"] = gs.pitch_vel * 57.3;
+
+      // 开火/指令
+      if (buff_plan.control) {
+        data["plan_yaw"] = buff_plan.yaw * 57.3;
+        data["plan_pitch"] = buff_plan.pitch * 57.3;
+        data["plan_yaw_vel"] = buff_plan.yaw_vel * 57.3;
+        data["plan_pitch_vel"] = buff_plan.pitch_vel * 57.3;
+        data["plan_yaw_acc"] = buff_plan.yaw_acc * 57.3;
+        data["plan_pitch_acc"] = buff_plan.pitch_acc * 57.3;
+        data["shoot"] = buff_plan.fire ? 1 : 0;
+      }
+
+      plotter.plot(data);
 
     } else
       gimbal.send(false, false, 0, 0, 0, 0, 0, 0);

@@ -72,13 +72,16 @@ void CommandGener::generate_command()
     }
     send_(command);
 
-    // 1Hz 发送数据日志（联调排查跳变用，转成度便于和电控对表）
+    // 1Hz 发送数据日志（联调排查跳变用，转成度便于和电控对表）。
+    // age=最新帧龄（秒）：age>0.35 时本线程发停止帧，日志可区分
+    // "帧龄超限"与"无目标/解算失败"两类 mode=0（2026-10-18 排查需要）。
     static auto last_tx_log = std::chrono::steady_clock::time_point{};
     if (tools::delta_time(std::chrono::steady_clock::now(), last_tx_log) > 1.0) {
+      auto frame_age = input ? tools::delta_time(std::chrono::steady_clock::now(), input->t) : -1.0;
       tools::logger()->info(
-        "[CommandGener] mode={} yaw={:+.2f}° pitch={:+.2f}° shoot={}",
+        "[CommandGener] mode={} yaw={:+.2f}° pitch={:+.2f}° shoot={} age={:.3f}s",
         command.control ? (command.shoot ? 2 : 1) : 0, command.yaw * 57.3, command.pitch * 57.3,
-        command.shoot);
+        command.shoot, frame_age);
       last_tx_log = std::chrono::steady_clock::now();
     }
     std::this_thread::sleep_for(std::chrono::milliseconds(2));  //approximately 500Hz

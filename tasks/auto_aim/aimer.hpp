@@ -41,6 +41,8 @@ private:
   bool spin_mode_ = false;  // 小陀螺分支滞回状态（进入 2.2rad/s，退出 1.6rad/s）
   double high_speed_delay_time_;
   double low_speed_delay_time_;
+  double max_predict_time_;  // to_now 预测时域上限：钳制帧龄+延迟的放大效应（假自转×长时域=指令摆幅）
+  double camera_offset_y_;   // 相机光轴相对云台 yaw 轴的横向偏置(m)，用于近距离视差补偿
   double decision_speed_;
   double default_bullet_speed_;
   std::chrono::steady_clock::time_point last_bullet_warn_{};  // 弹速告警节流（1s 一次）

@@ -314,10 +314,17 @@ void Solver::optimize_yaw(Armor & armor) const
   auto det_h_left = cv::norm(armor.points[0] - armor.points[3]);
   auto det_h_right = cv::norm(armor.points[1] - armor.points[2]);
   auto as = (det_h_left - det_h_right) / std::max(1.0, std::min(det_h_left, det_h_right));
+  // 图像系角度：板中心相对相机光轴(主点)的偏角，下/右为正——即用户在画面上
+  // 看到的偏移(用户对标窗口中心,而主点 cy=560 比 1024 高图像中心低 48px≈1.5°)。
+  // 调试 pitch_offset/yaw_offset 的直接观测量,免去目测。
+  Eigen::Vector3d xyz_in_camera =
+    R_camera2gimbal_.transpose() * (armor.xyz_in_gimbal - t_camera2gimbal_);
+  auto iyaw = std::atan2(xyz_in_camera[0], xyz_in_camera[2]) * 57.3;
+  auto ipitch = std::atan2(xyz_in_camera[1], xyz_in_camera[2]) * 57.3;
   tools::logger()->debug(
-    "[Solver] raw={:.1f}° best={:.1f}° d={:.2f}m z={:.2f}m as={:+.2f} sl={:.1f}° dp={:.0f} k={:.0f}",
-    armor.yaw_raw * 57.3, best_yaw * 57.3, armor.ypd_in_world[2], armor.xyz_in_world[2], as,
-    slip * 57.3, drop, pull_k);
+    "[Solver] raw={:.1f}° best={:.1f}° d={:.2f}m z={:.2f}m iy={:+.1f}° ip={:+.1f}° as={:+.2f} sl={:.1f}° dp={:.0f} k={:.0f}",
+    armor.yaw_raw * 57.3, best_yaw * 57.3, armor.ypd_in_world[2], armor.xyz_in_world[2], iyaw,
+    ipitch, as, slip * 57.3, drop, pull_k);
 }
 
 double Solver::SJTU_cost(

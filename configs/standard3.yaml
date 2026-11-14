@@ -32,6 +32,8 @@ performance_mode: throughput
 #
 # 别用"丢掉最旧的在飞帧让新帧顶进来"去压滞后，试过，反而更差得多。
 num_streams: 6
+# 检测可视化窗口开关（draw+imshow 占用主循环，性能排查时可关；现场想看检测效果时开）
+debug_window: true
 min_confidence: 0.8
 use_traditional: true
 
@@ -65,17 +67,36 @@ outpost_max_temp_lost_count: 75
 max_dt: 0.3
 
 #####-----aimer参数-----#####
-yaw_offset: 2 # degree -2.5
-pitch_offset: 6.5 # degree 2
+# 常数瞄准偏置(所有距离一致)。19:54 实测(off_yaw=4.5):板在相机轴右
+# iy=+2.7°(1.5m)/+4.0°(0.65m),加 cx 主点偏右 1.03°,用户看到板偏右
+# 3.7~5°(即最初"偏右下"的右半)。yaw 链:aim 点≈板(19:32 已验),残差在
+# 相机轴对窗口中心 → off_yaw 提到 8.0,使 1.5m 处 iy≈-0.8、0.65m 处
+# +0.5(±2° 的 v̂ 预测噪声)。规则:板偏右→增大 yaw_offset。
+#
+# pitch: cmd=-(traj+off),电控执行与 q 帧符号相反(physical=+traj+off),
+# 弹速用 GimbalRx 回传的 15.0 算 drop(1.5m 处 1.77°)。19:54 实测验证的链:
+# ip(板相对相机轴,下为正) = drop(v0=15) + off - 7.28(相机下倾) + vz·dt 噪声
+# → off=5.0 时稳态 ip=-1.5~-0.5°(板≈窗口中心,1.54° 主点偏下已含)。
+# 实测均值 +1.2~3.0 是 vz·dt 预测噪声(手微动 ±2-3°),不是偏置,不要再动。
+# 规则:偏下→减小 pitch_offset,偏上→增大。
+yaw_offset: 0.5 # degree
+pitch_offset: 5.0 # degree
 comming_angle: 55 # degree
 leaving_angle: 20 # degree
 # 高/低速档位判定阈值（rad/s），按角速度绝对值判断（带符号会漏掉反向旋转的目标）。
 # 联调期两档延迟暂不区分，可先都设 0.1s。
 decision_speed: 3 # rad/s
-# 发弹延迟 + 云台响应时间（约 0.1s 起步）。aimer 已按 to_now 补偿检测+传输滞后
-# （帧龄 ~160ms），这里只补发弹与云台的物理延迟，联调中按实际弹道表现微调。
-high_speed_delay_time: 0.1 # s
-low_speed_delay_time: 0.1 # s
+# 发弹延迟 + 云台响应时间。2026-10-18 近距抖动排查：0.1s 时预测时域达
+# 0.15~0.2s 帧龄 + 0.1s ≈ 0.3s，与假自转 w 相乘把指令甩出 ±25°；降到 0.03s
+# 并配合 max_predict_time 钳制，近距离（1m 弹道飞行 ~0.05s）仍有余量。
+high_speed_delay_time: 0.03 # s
+low_speed_delay_time: 0.03 # s
+# to_now 预测时域上限（秒），= 帧龄 + delay_time 的上限。近距假自转场景下
+# 预测越长指令摆幅越大；代价是帧龄超限时瞄准点略滞后。联调稳定后可放宽。
+# 17:20 测试再收紧 0.15→0.08：实测瞄准误差 ∝ w（w=0 时 +27°、w=1 时 +36°、
+# w=4 时 +55°），预测在用噪声踢过的 v̂/w 放大误差；0.08s 仍覆盖近距离
+# 弹道飞行 ~0.03s + 延迟 0.03s。
+max_predict_time: 0.15 # s  (0.08→0.15: 覆盖 帧龄~0.11s+延迟0.03s，预测追平"现在"；仍慢再试 0.18~0.20)
 # 电控帧内弹速无效（<14 m/s）时兜底使用的弹速，必须改成实际弹速（如 15/18/30）
 default_bullet_speed: 23.0
 

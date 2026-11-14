@@ -1,6 +1,7 @@
 #include <chrono>
 #include <opencv2/opencv.hpp>
 #include <thread>
+#include <yaml-cpp/yaml.h>
 
 #include "io/camera.hpp"
 #include "io/gimbal/gimbal.hpp"  // USB CDC 虚拟串口 (SP 协议, com_port: /dev/gimbal)
@@ -45,7 +46,10 @@ int main(int argc, char * argv[])
   io::Camera camera(config_path);
   io::Gimbal gimbal(config_path);  // 串口路径来自配置项 com_port (默认 /dev/gimbal)
 
-  auto_aim::multithread::MultiThreadDetector detector(config_path, true);  // true: 弹检测可视化窗口
+  // 检测可视化窗口由 configs 的 debug_window 控制（默认 true）：
+  // 现场想看检测效果就开着，性能排查时置 false 减小主循环负载
+  auto_aim::multithread::MultiThreadDetector detector(
+    config_path, YAML::LoadFile(config_path)["debug_window"].as<bool>(true));
   auto_aim::Solver solver(config_path);
   auto_aim::Tracker tracker(config_path, solver);
   auto_aim::Aimer aimer(config_path);

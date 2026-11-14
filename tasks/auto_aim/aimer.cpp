@@ -2,6 +2,7 @@
 
 #include <yaml-cpp/yaml.h>
 
+#include <algorithm>
 #include <cmath>
 #include <vector>
 
@@ -26,6 +27,17 @@ Aimer::Aimer(const std::string & config_path)
   // high/low speed delay：用于根据目标角速度选择不同的预测延迟
   high_speed_delay_time_ = yaml["high_speed_delay_time"].as<double>();
   low_speed_delay_time_ = yaml["low_speed_delay_time"].as<double>();
+  // to_now 预测时域上限（秒）。预测角增量 ≈ w × dt，近距假自转 w=±2rad/s 时
+  // 0.3s 时域会把瞄准点甩出 ±30°（2026-10-17 指令 ±25° 跳变实测来源），
+  // 钳到 0.15s 把放大效应减半，代价是帧龄超限时瞄准点略滞后于真实时刻。
+  // 17:20 测试再收紧到 0.08：实测瞄准误差 ∝ w（w=0 时 +27°、w=1 时 +36°、
+  // w=4 时 +55°），说明预测在用噪声踢过的 v̂/w 放大误差，且放大效应与测量
+  // 无关（r=0.06）；0.08s 仍覆盖近距离弹道飞行 0.03s + 延迟 0.03s。
+  max_predict_time_ = yaml["max_predict_time"].as<double>(0.15);
+  // 相机光轴相对云台 yaw 轴的横向偏置（≈0.104m）：近距离视差补偿用。
+  // 0.65m 处视差 ≈ asin(0.104/0.65) ≈ 9°，不补偿则板系统性偏在画面一侧。
+  camera_offset_y_ =
+    yaml["t_camera2gimbal"] ? yaml["t_camera2gimbal"][1].as<double>() : 0.104;
   // decision_speed：角速度阈值，用以判断高/低速
   decision_speed_ = yaml["decision_speed"].as<double>();
   // 电控帧内弹速无效（<14）时的兜底弹速，需按实际弹速配置
@@ -68,6 +80,8 @@ io::Command Aimer::aim(
     // 若以当前为准，则将当前实际时间与帧时间差（传输延时）加上 delay_time
     double dt;
     dt = tools::delta_time(std::chrono::steady_clock::now(), timestamp) + delay_time;
+    // 预测时域钳制：dt 由帧龄+延迟组成，EKF 的 w 含翻转噪声时预测越长指令摆幅越大
+    dt = std::max(0.0, std::min(dt, max_predict_time_));
     future += std::chrono::microseconds(int(dt * 1e6));
     target.predict(future);
   }
@@ -138,7 +152,13 @@ io::Command Aimer::aim(
 
   // 基于最终选定的瞄准点与弹道计算输出角度（yaw, pitch）并加上配置偏置
   Eigen::Vector3d final_xyz = debug_aim_point.xyza.head(3);
-  double yaw = std::atan2(final_xyz.y(), final_xyz.x()) + yaw_offset_;
+  // 近距离视差补偿：相机光轴不在云台 yaw 轴上（横向偏置 ~0.104m），要让"光轴"
+  // 穿过瞄准点而不是"云台轴线"穿过瞄准点，否则 0.65m 处板系统性偏 ~9°（2026-10-18
+  // 实测偏 ~19°，此处补偿占其中近半）。推导：要求 (p-R(ψ)t) ⊥ R(ψ)ŷ，即
+  // r·sin(θ-ψ) = t_y → ψ = θ - asin(t_y/r)；t_x 只影响视距不影响 yaw。
+  double aim_dist = std::sqrt(final_xyz.x() * final_xyz.x() + final_xyz.y() * final_xyz.y());
+  double yaw = std::atan2(final_xyz.y(), final_xyz.x()) -
+               std::asin(std::clamp(camera_offset_y_ / aim_dist, -1.0, 1.0)) + yaw_offset_;
   double pitch = -(current_traj.pitch + pitch_offset_);  // 世界坐标系下pitch向上为负
   return {true, false, yaw, pitch};
 }

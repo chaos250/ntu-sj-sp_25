@@ -2,7 +2,7 @@
 # 视觉程序守护进程:程序退出/崩溃后自动重启,日志写入 logs/watchdog.log
 #
 # 可用环境变量覆盖(在 autostart.sh 或 .desktop 里设置):
-#   VISION_BIN     要运行的二进制(默认 ./build/mt_standard)
+#   VISION_BIN     要运行的二进制(默认 ./build/standard_mpc)
 #   VISION_CONFIG  配置文件(默认 configs/standard3.yaml)
 #   RESTART_DELAY  崩溃后重启间隔秒数(默认 2)
 set -u
@@ -10,7 +10,7 @@ set -u
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR" || exit 1  # assets 模型、logs/ 等都是相对路径,必须在仓库根目录运行
 
-VISION_BIN="${VISION_BIN:-./build/mt_standard}"
+VISION_BIN="${VISION_BIN:-./build/standard_mpc}"
 VISION_CONFIG="${VISION_CONFIG:-configs/standard3.yaml}"
 RESTART_DELAY="${RESTART_DELAY:-2}"
 

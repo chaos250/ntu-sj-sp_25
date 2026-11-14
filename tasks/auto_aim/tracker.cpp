@@ -97,6 +97,12 @@ std::list<Target> Tracker::track(
 
   if (state_ == "lost") return {};
 
+  // detecting 期间不下发目标（2026-10-18）：新目标由单帧 PnP 初始化，近距噪声
+  // ±15~30°，若立即交给 aimer 会把初始化噪声直接变成云台指令（"装甲板突然出
+  // 现在近距离视野就猛晃"）。等 min_detect_count 帧 EKF 收敛到 tracking 再下发，
+  // 代价 ~125ms（40fps × 5帧）；track() 每帧照常更新 EKF，收敛不受影响。
+  if (state_ == "detecting") return {};
+
   std::list<Target> targets = {target_};
   return targets;
 }
