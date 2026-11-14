@@ -39,7 +39,8 @@ public:
 
   void push(
     const std::list<auto_aim::Target> & targets, const std::chrono::steady_clock::time_point & t,
-    double bullet_speed, const Eigen::Vector3d & gimbal_pos);
+    double bullet_speed, const Eigen::Vector3d & gimbal_pos, float gimbal_yaw = 0.0f,
+    float gimbal_pitch = 0.0f);
 
 private:
   struct Input
@@ -49,6 +50,8 @@ private:
     // std::function<void()> decide;
     double bullet_speed;
     Eigen::Vector3d gimbal_pos;
+    float gimbal_yaw;    // 云台当前绝对 yaw(rad)，与 q 同一世界系，用于与 cmd_yaw 对表
+    float gimbal_pitch;  // 云台当前绝对 pitch(rad)
   };
 
   auto_aim::Shooter & shooter_;

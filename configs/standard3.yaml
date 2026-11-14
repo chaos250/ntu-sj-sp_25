@@ -80,7 +80,7 @@ max_dt: 0.3
 # 实测均值 +1.2~3.0 是 vz·dt 预测噪声(手微动 ±2-3°),不是偏置,不要再动。
 # 规则:偏下→减小 pitch_offset,偏上→增大。
 yaw_offset: 0.5 # degree
-pitch_offset: 5.0 # degree
+pitch_offset: 4.5 # degree
 comming_angle: 55 # degree
 leaving_angle: 20 # degree
 # 高/低速档位判定阈值（rad/s），按角速度绝对值判断（带符号会漏掉反向旋转的目标）。

@@ -77,6 +77,16 @@ int main(int argc, char * argv[])
         auto gs = gimbal.state();
         auto plan = planner.plan(target, gs.bullet_speed);
 
+        // 自瞄对表曲线：cmd=视觉指令(含 MPC 前馈)，gimbal=电控实际回传，同一世界系，单位度
+        nlohmann::json data;
+        data["t"] = tools::delta_time(std::chrono::steady_clock::now(), t0);
+        data["cmd_yaw"] = plan.yaw * 57.3;
+        data["cmd_pitch"] = plan.pitch * 57.3;
+        data["gimbal_yaw"] = gs.yaw * 57.3;
+        data["gimbal_pitch"] = gs.pitch * 57.3;
+        data["shoot"] = plan.fire ? 1 : 0;
+        plotter.plot(data);
+
         gimbal.send(
           plan.control, plan.fire, plan.yaw, plan.yaw_vel, plan.yaw_acc, plan.pitch, plan.pitch_vel,
           plan.pitch_acc);

@@ -127,7 +127,9 @@ int main(int argc, char * argv[])
 
       auto targets = tracker.track(armors, t);
 
-      commandgener.push(targets, t, gimbal.state().bullet_speed, ypr);  // 发送给决策线程
+      commandgener.push(
+        targets, t, gimbal.state().bullet_speed, ypr, gimbal.state().yaw,
+        gimbal.state().pitch);  // 发送给决策线程（附带云台实际 yaw/pitch 供与 cmd 对表）
 
     }
 

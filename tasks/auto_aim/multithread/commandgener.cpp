@@ -25,10 +25,10 @@ CommandGener::~CommandGener()
 
 void CommandGener::push(
   const std::list<auto_aim::Target> & targets, const std::chrono::steady_clock::time_point & t,
-  double bullet_speed, const Eigen::Vector3d & gimbal_pos)
+  double bullet_speed, const Eigen::Vector3d & gimbal_pos, float gimbal_yaw, float gimbal_pitch)
 {
   std::lock_guard<std::mutex> lock(mtx_);
-  latest_ = {targets, t, bullet_speed, gimbal_pos};
+  latest_ = {targets, t, bullet_speed, gimbal_pos, gimbal_yaw, gimbal_pitch};
   cv_.notify_one();
 }
 
@@ -62,6 +62,8 @@ void CommandGener::generate_command()
         data["t"] = tools::delta_time(std::chrono::steady_clock::now(), t0);
         data["cmd_yaw"] = command.yaw * 57.3;
         data["cmd_pitch"] = command.pitch * 57.3;
+        data["gimbal_yaw"] = input->gimbal_yaw * 57.3;
+        data["gimbal_pitch"] = input->gimbal_pitch * 57.3;
         data["shoot"] = command.shoot;
         data["horizon_distance"] = command.horizon_distance;
         plotter_.plot(data);
